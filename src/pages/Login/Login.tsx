@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { Input } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
-import { Link } from "react-router-dom";
+import { useLoginMutation } from "@/services/auth";
 
 const helperText = `
 Welcome! Please, login or create a new account.
@@ -16,11 +17,16 @@ const Login = () => {
   const { values, errors, onChange, onBlur, validateAll } =
     useFormValidation("login");
 
+  const [login, { error: loginError }] = useLoginMutation();
+
   const onSubmit = async () => {
     const isValid = validateAll();
     if (!isValid) return;
-    console.log("Everything fine here");
-    //TODO: api login logic
+    const res = await login(values);
+    if ("data" in res) {
+      //TOKEN HERE
+      console.log(res.data.data);
+    }
   };
 
   return (
@@ -46,7 +52,10 @@ const Login = () => {
         error={errors.password}
         type="password"
       />
-      <div className="flex gap-x-2 mt-8">
+      {loginError && (
+        <span className="text-error mt-6">Credentials are not valid</span>
+      )}
+      <div className="flex gap-x-2 mt-6">
         <Link to="/register">
           <button className="btn btn-neutral">Create a new Account</button>
         </Link>
