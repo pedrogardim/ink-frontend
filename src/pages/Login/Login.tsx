@@ -1,4 +1,5 @@
 import { Input } from "@/common";
+import useFormValidation from "@/hooks/useFormValidation";
 import { Link } from "react-router-dom";
 
 const helperText = `
@@ -12,19 +13,46 @@ Thank you for choosing our app!
 `;
 
 const Login = () => {
+  const { values, errors, onChange, onBlur, validateAll } =
+    useFormValidation("login");
+
+  const onSubmit = async () => {
+    const isValid = validateAll();
+    if (!isValid) return;
+    console.log("Everything fine here");
+    //TODO: api login logic
+  };
+
   return (
     <div className="page">
       <div className="max-w-screen-sm">
         <h1 className="text-3xl font-bold mb-2">Login</h1>
         <p className="text-sm text-gray-500 mb-6">{helperText}</p>
       </div>
-      <Input placeholder={"Insert your email"} label={"Email"} />
-      <Input placeholder={"Insert your password"} label={"Password"} />
+      <Input
+        placeholder="Insert your email"
+        label="Email"
+        value={values.email}
+        onChange={(v) => onChange("email", v)}
+        onBlur={() => onBlur("email")}
+        error={errors.email}
+      />
+      <Input
+        placeholder="Insert your password"
+        label="Password"
+        value={values.password}
+        onChange={(v) => onChange("password", v)}
+        onBlur={() => onBlur("password")}
+        error={errors.password}
+        type="password"
+      />
       <div className="flex gap-x-2 mt-8">
         <Link to="/register">
           <button className="btn btn-neutral">Create a new Account</button>
         </Link>
-        <button className="btn btn-primary">Login</button>
+        <button className="btn btn-primary" onClick={onSubmit}>
+          Login
+        </button>
       </div>
     </div>
   );
