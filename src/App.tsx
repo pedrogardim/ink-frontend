@@ -1,27 +1,15 @@
 import "./App.css";
-import { useDispatch, useSelector } from "@/store/hooks";
-import { incrementByAmount } from "@/store/slices/counterSlice";
+import { Routes, Route } from "react-router-dom";
+import Header from "@/common/layout/Header/Header";
 
 function App() {
-  const dispatch = useDispatch();
-  const { value } = useSelector((state) => state.counter);
-
   return (
-    <>
-      <button
-        className="btn btn-primary"
-        onClick={() => dispatch(incrementByAmount(-1))}
-      >
-        -
-      </button>
-      {value}
-      <button
-        className="btn btn-primary"
-        onClick={() => dispatch(incrementByAmount(1))}
-      >
-        +
-      </button>
-    </>
+    <div className="max-w-screen-xl mx-auto">
+      <Header />
+      <Routes>
+        <Route path="/" element={<div>Home</div>} />
+      </Routes>
+    </div>
   );
 }
 
