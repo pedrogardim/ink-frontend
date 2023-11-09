@@ -5,6 +5,7 @@ interface InputProps {
   error?: string;
   value?: string;
   placeholder?: string;
+  type?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
 }
@@ -12,7 +13,8 @@ interface InputProps {
 const Input = ({
   label,
   error,
-  value,
+  value = "",
+  type = "text",
   placeholder,
   onChange = () => {},
   onBlur = () => {},
@@ -23,7 +25,7 @@ const Input = ({
         <span className="label-text">{label}</span>
       </label>
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
         className={clsx(
           "input input-bordered w-full max-w-xs placeholder-gray-600",
