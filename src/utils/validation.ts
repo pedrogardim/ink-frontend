@@ -11,6 +11,7 @@ const PHONE_NUMBER_REGEX = /^[0-9]{9}$/;
 type ValidationRules = {
   [key: string]: {
     validation: (data: any) => boolean;
+    formated?: string;
     required?: boolean;
     customMessage?: string;
   };
@@ -59,24 +60,28 @@ export const userRules: ValidationRules = {
   firstName: {
     validation: (id) => NAME_REGEX.test(id),
     required: true,
+    customMessage: "Names can only contain letters",
   },
   lastName: {
     validation: (id) => NAME_REGEX.test(id),
     required: true,
+    customMessage: "Names can only contain letters",
   },
   email: {
     validation: (id) => EMAIL_REGEX.test(id),
     required: true,
-    customMessage: `Must contain an @, and a valid domain`,
+    customMessage: `Must contain an "@" and a valid domain`,
   },
   password: {
     validation: (id) => PASSWORD_REGEX.test(id),
     required: true,
-    customMessage: `Must contain letters, numbers, symbols and have between 6 and 20 characters`,
+    customMessage:
+      "Must contain letters, numbers, symbols and have between 6 and 20 characters",
   },
   phoneNumber: {
     validation: (id) => PHONE_NUMBER_REGEX.test(id),
     required: true,
+    customMessage: `Must contain 9 numbers`,
   },
   profilePicUrl: {
     validation: (id) => URL_REGEX.test(id),
@@ -102,6 +107,14 @@ export const formTypes: {
     entity: "user",
     fields: ["email", "password"],
   },
+  registerFirstStep: {
+    entity: "user",
+    fields: ["firstName", "lastName"],
+  },
+  registerSecondStep: {
+    entity: "user",
+    fields: ["email", "password"],
+  },
 };
 
 export type FormType = keyof typeof formTypes;
@@ -111,11 +124,8 @@ export const validateField = (key: string, value: any, formType: FormType) => {
   const rule = validationRules[formEntity][key];
 
   if (rule.required && !value && value !== 0)
-    return `${key[0].toUpperCase()}${key.slice(1)} can't be empty`;
+    return "This field can't be empty";
 
   if ((value || value === 0) && !rule.validation(value))
-    return (
-      rule.customMessage ||
-      `${key[0].toUpperCase()}${key.slice(1)} is not valid`
-    );
+    return rule.customMessage || "This field is not valid";
 };
