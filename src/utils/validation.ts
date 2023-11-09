@@ -95,17 +95,25 @@ export const validationRules = {
 
 export type ValidationEntity = "user" | "appointment" | "tattoWork";
 
-export const validateField = (
-  key: string,
-  value: any,
-  entity: ValidationEntity
-) => {
-  const rule = validationRules[entity][key];
+export const formTypes: {
+  [key: string]: { entity: ValidationEntity; fields: string[] };
+} = {
+  login: {
+    entity: "user",
+    fields: ["email", "password"],
+  },
+};
+
+export type FormType = keyof typeof formTypes;
+
+export const validateField = (key: string, value: any, formType: FormType) => {
+  const formEntity = formTypes[formType].entity;
+  const rule = validationRules[formEntity][key];
 
   if (rule.required && !value && value !== 0)
     return `${key[0].toUpperCase()}${key.slice(1)} can't be empty`;
 
-  if (!rule.validation(value))
+  if ((value || value === 0) && !rule.validation(value))
     return (
       rule.customMessage ||
       `${key[0].toUpperCase()}${key.slice(1)} is not valid`
