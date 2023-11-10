@@ -23,11 +23,11 @@ const Header = () => {
         </li>
         {user && (
           <li>
-            <a>Mis citas</a>
+            <a>My appointments</a>
           </li>
         )}
         <li>
-          <a>Tatuadores</a>
+          <a>Artists</a>
         </li>
         {/* <li tabIndex={0}>
           <details>
@@ -73,7 +73,12 @@ const Header = () => {
               className="btn btn-ghost btn-circle avatar ml-2"
             >
               <div className="w-10 rounded-full">
-                <img src={user.profilePicUrl} />
+                <img
+                  src={
+                    user.profilePicUrl ||
+                    `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}`
+                  }
+                />
               </div>
             </label>
             <ul
@@ -81,10 +86,9 @@ const Header = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
+                <Link to={"/profile"}>
+                  <a className="justify-between">Profile</a>
+                </Link>
               </li>
               <li>
                 <a>Settings</a>
