@@ -8,6 +8,7 @@ interface InputProps {
   type?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
+  className?: string;
 }
 
 const Input = ({
@@ -18,9 +19,10 @@ const Input = ({
   placeholder,
   onChange = () => {},
   onBlur = () => {},
+  className,
 }: InputProps) => {
   return (
-    <div className="form-control w-full max-w-xs">
+    <div className={clsx("form-control w-full max-w-xs", className)}>
       <label className="label">
         <span className="label-text">{label}</span>
       </label>
@@ -35,13 +37,9 @@ const Input = ({
         onChange={(e) => onChange(e.target.value)}
         value={value}
       />
-      {error && (
-        <label className="label">
-          <span className={clsx("label-text-alt", error && "text-error")}>
-            {error}
-          </span>
-        </label>
-      )}
+      <label className={clsx("label p-1", !error && "opacity-0")}>
+        <span className={"label-text-alt text-error"}>{error || "A"}</span>
+      </label>
     </div>
   );
 };
