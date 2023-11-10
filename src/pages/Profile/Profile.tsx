@@ -1,32 +1,33 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ImageInput, Input } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
-import { useLoginMutation } from "@/services/auth";
 import { useDispatch } from "react-redux";
 import { useSelector } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
+import { useUpdateMyProfileMutation } from "@/services";
+import { User } from "@/types/user";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+  const { firstName, lastName, profilePicUrl, email, phoneNumber } =
+    user as User;
+
   const { values, errors, onChange, onBlur, validateAll } = useFormValidation(
     "profile",
-    user
+    { firstName, lastName, profilePicUrl, email, phoneNumber }
   );
 
-  console.log(values);
-
-  const [login, { error: loginError }] = useLoginMutation();
+  const [updateMyProfile] = useUpdateMyProfileMutation();
 
   const onSubmit = async () => {
     const isValid = validateAll();
     if (!isValid) return;
-    return;
-    const res = await login(values);
+    const res = await updateMyProfile(values);
     if ("error" in res) return;
     dispatch(setUser(values));
-    navigate("/");
+    console.log("user updated!");
   };
 
   const inputsPages = [
@@ -84,8 +85,10 @@ const Profile = () => {
     <div className="page max-w-screen-md mx-auto">
       <h1 className="text-3xl font-bold mr-auto mb-6">My profile</h1>
       <div className="grid grid-cols-2 gap-4 w-full h-96">
-        {inputsPages.map((e) => (
-          <div className="flex flex-col justify-center items-center">{e}</div>
+        {inputsPages.map((e, i) => (
+          <div key={i} className="flex flex-col justify-center items-center">
+            {e}
+          </div>
         ))}
       </div>
       <div className="flex justify-end w-full">
