@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
 import { useLoginMutation } from "@/services/auth";
+import { AuthResponse } from "@/types/auth";
+import { setUser } from "@/store/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const helperText = `
 Welcome! Please, login or create a new account.
@@ -14,6 +17,8 @@ Thank you for choosing our app!
 `;
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { values, errors, onChange, onBlur, validateAll } =
     useFormValidation("login");
 
@@ -23,10 +28,11 @@ const Login = () => {
     const isValid = validateAll();
     if (!isValid) return;
     const res = await login(values);
-    if ("data" in res) {
-      //TOKEN HERE
-      console.log(res.data.data);
-    }
+    if (!("data" in res)) return;
+    const { token, user } = res.data as AuthResponse;
+    localStorage.setItem("jwtToken", token);
+    dispatch(setUser(user));
+    navigate("/");
   };
 
   return (

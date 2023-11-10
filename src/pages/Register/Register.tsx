@@ -1,8 +1,12 @@
 import { useState } from "react";
+import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { Input, ImageInput } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
-import clsx from "clsx";
+import { useRegisterMutation } from "@/services/auth";
+import { setUser } from "@/store/slices/userSlice";
+import { useDispatch } from "@/store/hooks";
+import type { AuthResponse } from "@/types/auth";
 
 const helperText = `
 Welcome to our community!
@@ -12,8 +16,10 @@ Thank you for choosing to join our community![temp]
 `;
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
+  const [register, { error: registerError }] = useRegisterMutation();
 
   const { values, errors, onChange, onBlur, validateAll } = useFormValidation(
     !page ? "registerFirstStep" : "registerSecondStep"
@@ -21,14 +27,19 @@ const Register = () => {
 
   const hasErros = Object.keys(errors).length > 0;
 
-  const onNext = () => {
+  const onNext = async () => {
     const isValid = validateAll();
     if (!isValid) return;
     if (!page) {
       setPage(1);
       return;
     }
-    ///todo: api logic dispatch here
+    const res = await register(values);
+    if (!("data" in res)) return;
+    const { token, user } = res.data as AuthResponse;
+    localStorage.setItem("jwtToken", token);
+    dispatch(setUser(user));
+    navigate("/");
   };
 
   const inputsPages = [
