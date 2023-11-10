@@ -15,7 +15,7 @@ const Header = () => {
         </button>
       </div>
       <div className="">
-        <a className="btn btn-ghost normal-case text-xl">Ink Symphony</a>
+        <a className="btn btn-ghost normal-case text-2xl font-kenia">Ink</a>
       </div>
       <ul className="menu menu-horizontal px-1 mr-auto">
         <li>
