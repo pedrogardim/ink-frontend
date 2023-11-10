@@ -75,8 +75,7 @@ export const userRules: ValidationRules = {
   password: {
     validation: (id) => PASSWORD_REGEX.test(id),
     required: true,
-    customMessage:
-      "Must contain letters, numbers, symbols and have between 6 and 20 characters",
+    customMessage: "Must contain letters, numbers and symbols",
   },
   phoneNumber: {
     validation: (id) => PHONE_NUMBER_REGEX.test(id),
@@ -101,7 +100,11 @@ export const validationRules = {
 export type ValidationEntity = "user" | "appointment" | "tattoWork";
 
 export const formTypes: {
-  [key: string]: { entity: ValidationEntity; fields: string[] };
+  [key: string]: {
+    entity: ValidationEntity;
+    fields: string[];
+    optionalFields?: string[];
+  };
 } = {
   login: {
     entity: "user",
@@ -115,15 +118,20 @@ export const formTypes: {
     entity: "user",
     fields: ["email", "password"],
   },
+  profile: {
+    entity: "user",
+    fields: Object.keys(userRules),
+    optionalFields: ["password"],
+  },
 };
 
 export type FormType = keyof typeof formTypes;
 
 export const validateField = (key: string, value: any, formType: FormType) => {
-  const formEntity = formTypes[formType].entity;
-  const rule = validationRules[formEntity][key];
+  const { entity, optionalFields } = formTypes[formType];
+  const rule = validationRules[entity][key];
 
-  if (rule.required && !value && value !== 0)
+  if (rule.required && !optionalFields?.includes(key) && !value && value !== 0)
     return "This field can't be empty";
 
   if ((value || value === 0) && !rule.validation(value))
