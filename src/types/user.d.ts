@@ -7,6 +7,7 @@ export interface User {
   firstName?: string;
   lastName?: string;
   phoneNumber?: number;
+  profilePicUrl?: string;
   role?: UserRoleType;
   createdAt?: string;
   updatedAt?: string;
