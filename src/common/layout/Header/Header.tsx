@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiBell, mdiMenu } from "@mdi/js";
-import { useSelector } from "@/store/hooks";
+import { useSelector, useDispatch } from "@/store/hooks";
+import { logout } from "@/store/slices/userSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   return (
     <div className="navbar bg-base-100">
@@ -88,7 +90,7 @@ const Header = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={() => dispatch(logout())}>Logout</a>
               </li>
             </ul>
           </div>
