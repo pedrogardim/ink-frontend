@@ -1,20 +1,31 @@
 import { useRef } from "react";
-import { mdiImagePlusOutline } from "@mdi/js";
+import { mdiImageEdit, mdiImagePlusOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 
 interface InputProps {
-  imageUrl?: string;
+  src?: string;
   onChange?: (value: string) => void;
 }
 
-const ImageInput = ({}: InputProps) => {
+const ImageInput = ({ src }: InputProps) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   return (
     <div
-      className="btn border border-gray-700 h-32 w-32 rounded-full"
+      className="btn border border-gray-700 h-32 w-32 rounded-full relative"
       onClick={() => (inputRef.current as HTMLInputElement).click()}
     >
-      <Icon path={mdiImagePlusOutline} size={2} />
+      <Icon
+        path={src ? mdiImageEdit : mdiImagePlusOutline}
+        size={2}
+        className="pointer-events-none"
+      />
+      {src && (
+        <img
+          src={src}
+          alt="image"
+          className="absolute h-full w-full rounded-full hover:opacity-50 transition"
+        />
+      )}
       <input className="hidden" type="file" ref={inputRef} />
     </div>
   );
