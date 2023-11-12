@@ -10,6 +10,7 @@ import {
 } from "@mdi/js";
 import { useSelector } from "@/store/hooks";
 import { hideAlert } from "@/store/slices/uiSlice";
+import { Transition } from "..";
 
 const Alert = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,8 @@ const Alert = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(hideAlert());
-    }, 2500);
+    }, 3500);
   }, [currentAlert]);
-
-  if (!currentAlert) return;
 
   const alertTypeClass = {
     success: "alert-success",
@@ -38,10 +37,18 @@ const Alert = () => {
   }[currentAlert.type];
 
   return (
-    <div className={clsx("absolute top-16 alert", alertTypeClass)}>
+    <Transition
+      show={currentAlert.show}
+      className={clsx(
+        "alert top-16 absolute",
+        !currentAlert.show && "pointer-events-none opacity-0",
+        alertTypeClass
+      )}
+      onClick={() => dispatch(hideAlert())}
+    >
       <Icon path={alertIcon} size={1} />
       <span>{currentAlert.message}</span>
-    </div>
+    </Transition>
   );
 };
 

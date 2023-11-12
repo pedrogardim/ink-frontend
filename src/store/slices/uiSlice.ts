@@ -3,13 +3,14 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface AlertState {
   type: "success" | "error" | "info" | "warning";
   message: string;
+  show: boolean;
 }
 export interface UiState {
-  currentAlert: AlertState | null;
+  currentAlert: AlertState;
 }
 
 const initialState: UiState = {
-  currentAlert: null,
+  currentAlert: { show: false, type: "info", message: "" },
 };
 
 export const userSlice = createSlice({
@@ -17,10 +18,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     showAlert: (state, action: PayloadAction<AlertState>) => {
-      state.currentAlert = action.payload;
+      state.currentAlert = { ...action.payload, show: true };
     },
     hideAlert: (state) => {
-      state.currentAlert = null;
+      state.currentAlert.show = false;
     },
   },
 });
