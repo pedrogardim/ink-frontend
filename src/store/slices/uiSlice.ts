@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface AlertState {
+interface AlertPayload {
   type: "success" | "error" | "info" | "warning";
   message: string;
+}
+
+interface AlertState extends AlertPayload {
   show: boolean;
 }
 export interface UiState {
@@ -17,7 +20,7 @@ export const userSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    showAlert: (state, action: PayloadAction<AlertState>) => {
+    showAlert: (state, action: PayloadAction<AlertPayload>) => {
       state.currentAlert = { ...action.payload, show: true };
     },
     hideAlert: (state) => {
