@@ -13,8 +13,9 @@ const useFormValidation = (formType: FormType, initialValue: any = {}) => {
     });
     setValues((prev) => {
       if (!value) {
-        delete prev[key];
-        return prev;
+        const newValues = { ...prev };
+        delete newValues[key];
+        return newValues;
       }
       return { ...prev, [key]: value };
     });
