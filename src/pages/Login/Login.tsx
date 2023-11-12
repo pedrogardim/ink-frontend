@@ -4,7 +4,7 @@ import useFormValidation from "@/hooks/useFormValidation";
 import { useLoginMutation } from "@/services/auth";
 import { AuthResponse } from "@/types/auth";
 import { setUser } from "@/store/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "@/store/hooks";
 
 const helperText = `
 Welcome! Please, login or create a new account.

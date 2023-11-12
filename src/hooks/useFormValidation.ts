@@ -2,8 +2,8 @@ import { useState } from "react";
 import { validateField, formTypes } from "@/utils/validation";
 import type { FormType } from "@/utils/validation";
 
-const useFormValidation = (formType: FormType) => {
-  const [values, setValues] = useState<{ [key: string]: any }>({});
+const useFormValidation = (formType: FormType, initialValue: any = {}) => {
+  const [values, setValues] = useState<{ [key: string]: any }>(initialValue);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const onChange = (key: string, value: string) => {
@@ -11,7 +11,13 @@ const useFormValidation = (formType: FormType) => {
       delete prev[key];
       return prev;
     });
-    setValues((prev) => ({ ...prev, [key]: value }));
+    setValues((prev) => {
+      if (!value) {
+        delete prev[key];
+        return prev;
+      }
+      return { ...prev, [key]: value };
+    });
   };
 
   const onBlur = (key: string) => {
