@@ -1,12 +1,11 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-
 import { Login, Register, Profile, Home } from "./pages";
 import { Header, Alert } from "./common";
 
 function App() {
   return (
-    <div className="max-w-screen-xl h-screen mx-auto flex flex-col">
+    <div className="relative max-w-screen-xl h-screen mx-auto flex flex-col">
       <Header />
       <Alert />
       <Routes>

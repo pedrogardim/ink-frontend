@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import Icon from "@mdi/react";
+import { Link } from "react-router-dom";
 import { mdiBell, mdiMenu } from "@mdi/js";
 import { useSelector, useDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice";
@@ -15,11 +15,13 @@ const Header = () => {
         </button>
       </div>
       <div className="">
-        <a className="btn btn-ghost normal-case text-2xl font-kenia">Ink</a>
+        <Link className="btn btn-ghost normal-case text-2xl font-kenia" to="/">
+          Ink
+        </Link>
       </div>
       <ul className="menu menu-horizontal px-1 mr-auto">
         <li>
-          <a>Home</a>
+          <Link to="/">Home</Link>
         </li>
         {user && (
           <li>
@@ -86,8 +88,8 @@ const Header = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to={"/profile"}>
-                  <a className="justify-between">Profile</a>
+                <Link to={"/profile"} className="justify-between">
+                  Profile
                 </Link>
               </li>
               <li>
