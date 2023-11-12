@@ -1,3 +1,4 @@
+import { AppointmentCard } from "@/common/appointments/AppointmentCard";
 import { useGetMyAppointmentsQuery } from "@/services";
 
 const Appointments = () => {
@@ -10,7 +11,7 @@ const Appointments = () => {
         <div className="basis-1/4 border-r border-r-gray-600"></div>
         <div className="basis-3/4 flex justify-center items-center flex-col gap-2">
           {isLoading && (
-            <span className="loading loading-spinner loading-lg"></span>
+            <span className="loading loading-dots loading-lg"></span>
           )}
           {!isLoading && !data?.items.length && (
             <>
@@ -21,11 +22,12 @@ const Appointments = () => {
             </>
           )}
           {!isLoading && data?.items.length && (
-            <div className="flex-1 flex-col h-full overflow-y-scroll">
-              {data?.items.map((e) => (
-                <div className="border border-gray-300 rounded mb-4 p-2">
-                  {e.description + " " + e.tattooist?.firstName}
-                </div>
+            <div className="flex-1 flex-col h-full overflow-y-scroll gap-y-8">
+              {data?.items.map((appointment) => (
+                <AppointmentCard
+                  key={appointment.id}
+                  appointment={appointment}
+                />
               ))}
             </div>
           )}
