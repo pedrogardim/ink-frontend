@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./slices/counterSlice";
 import userReducer from "./slices/userSlice";
+import uiReducer from "./slices/uiSlice";
 import { authApi, userApi } from "@/services";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -12,9 +12,9 @@ const persistConfig = {
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     //TODO: fix ts error
     user: persistReducer(persistConfig, userReducer),
+    ui: uiReducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
   },
