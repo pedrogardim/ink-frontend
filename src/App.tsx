@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { Login, Register, Profile, Home } from "./pages";
+import { Login, Register, Profile, Home, Appointments } from "./pages";
 import { Header, Alert } from "./common";
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/appointments" element={<Appointments />} />
       </Routes>
     </div>
   );
