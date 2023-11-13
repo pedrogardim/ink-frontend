@@ -13,7 +13,15 @@ export const appointmentApi = createApi({
         data: PaginationResponse<Appointment>;
       }) => response.data,
     }),
+    getMyAppointment: builder.query({
+      query: (id) => `/appointments/my/${id}`,
+      transformResponse: (response: { data: Appointment }) => response.data,
+    }),
   }),
 });
 
-export const { useGetMyAppointmentsQuery } = appointmentApi;
+export const {
+  useGetMyAppointmentQuery,
+  useGetMyAppointmentsQuery,
+  useLazyGetMyAppointmentQuery,
+} = appointmentApi;
