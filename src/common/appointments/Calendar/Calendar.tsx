@@ -34,6 +34,7 @@ const Calendar = ({
       <div className="flex-1 grid grid-cols-7">
         {weekDayLabels.map((weekday) => (
           <div
+            key={weekday}
             className={clsx(cellClassName, "font-bold text-gray-500 text-sm")}
           >
             {weekday}
@@ -44,6 +45,7 @@ const Calendar = ({
             tile && dayjs(monthDate).set("date", tile?.day).toDate();
           return (
             <div
+              key={tile?.day}
               className={clsx(
                 cellClassName,
                 (tile?.weekDay || 0) >= 5 && weekEndClassName,
@@ -53,7 +55,7 @@ const Calendar = ({
             >
               {tile?.day}
               {events.find((e) => dayjs(e).isSame(dayDate, "day")) && (
-                <div className="absolute w-1 h-1 rounded-full bg-secondary bottom-1" />
+                <div className="absolute w-1 h-1 rounded-full bg-secondary bottom-[2px]" />
               )}
             </div>
           );
