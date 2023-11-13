@@ -2,21 +2,23 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import { Appointment } from "@/types/appointment";
 import { bgColors400 } from "@/utils/colors";
-interface AppointmentCardProps {
+import { HTMLAttributes } from "react";
+import { formatAppointmentTitle } from "@/utils/appointments";
+interface AppointmentCardProps extends HTMLAttributes<HTMLDivElement> {
   appointment: Appointment;
   sameDayAsPrevious?: boolean;
 }
 const AppointmentCard = ({
   appointment,
   sameDayAsPrevious,
+  ...props
 }: AppointmentCardProps) => {
-  const { id, description, tattooist, type, startTime } = appointment;
+  const { id, description, tattooist, startTime } = appointment;
 
-  const cardTitle = `${(type as string)[0].toUpperCase()}${type?.slice(
-    1
-  )} with ${tattooist?.firstName}`;
+  const cardTitle = formatAppointmentTitle(appointment);
+
   return (
-    <div>
+    <div {...props}>
       {!sameDayAsPrevious && (
         <div className="flex flex-row w-full mx-4 my-1 md:my-2 md:flex-col items-center md:items-start">
           <span className="text-md md:text-xl">
