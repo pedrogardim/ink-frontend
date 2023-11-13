@@ -7,7 +7,7 @@ const weekDayLabels = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
 interface CalendarProps {
   monthDate?: Date;
-  events?: Date[];
+  events?: (Date | string)[];
   onSelect: (date: Date) => void;
 }
 
@@ -17,7 +17,7 @@ const Calendar = ({
   onSelect = () => {},
 }: CalendarProps) => {
   const cellClassName =
-    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer";
+    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer relative";
 
   const weekEndClassName = "text-gray-600 pointer-events-none";
 
@@ -39,20 +39,25 @@ const Calendar = ({
             {weekday}
           </div>
         ))}
-        {calendarDays.map((tile) => (
-          <div
-            className={clsx(
-              cellClassName,
-              (tile?.weekDay || 0) >= 5 && weekEndClassName,
-              "hover:bg-gray-700"
-            )}
-            onClick={() =>
-              tile && onSelect(dayjs(monthDate).set("date", tile?.day).toDate())
-            }
-          >
-            {tile?.day}
-          </div>
-        ))}
+        {calendarDays.map((tile) => {
+          const dayDate =
+            tile && dayjs(monthDate).set("date", tile?.day).toDate();
+          return (
+            <div
+              className={clsx(
+                cellClassName,
+                (tile?.weekDay || 0) >= 5 && weekEndClassName,
+                "hover:bg-gray-700"
+              )}
+              onClick={() => tile && onSelect(dayDate as Date)}
+            >
+              {tile?.day}
+              {events.find((e) => dayjs(e).isSame(dayDate, "day")) && (
+                <div className="absolute w-1 h-1 rounded-full bg-secondary bottom-1" />
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

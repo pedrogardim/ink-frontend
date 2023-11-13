@@ -5,13 +5,24 @@ import { useGetMyAppointmentsQuery } from "@/services";
 const Appointments = () => {
   const { data, isLoading, error } = useGetMyAppointmentsQuery({});
 
+  const onDateSelect = (date: Date) => {
+    console.log(date);
+  };
   return (
     <div className="page">
       <h1 className="text-2xl font-bold mr-auto">My appointments</h1>
       <div className="flex flex-1 w-full flex-row items-stretch">
         <div className="basis-1/4 border-r border-r-gray-600">
-          <Calendar onSelect={console.log} monthDate={new Date(2023, 9)} />
-          <Calendar onSelect={console.log} monthDate={new Date(2023, 10)} />
+          <Calendar
+            onSelect={onDateSelect}
+            events={data?.items.map((e) => e.startTime)}
+            monthDate={new Date(2023, 9)}
+          />
+          <Calendar
+            onSelect={onDateSelect}
+            events={data?.items.map((e) => e.startTime)}
+            monthDate={new Date(2023, 10)}
+          />
         </div>
         <div className="basis-3/4 flex justify-center items-center flex-col gap-2">
           {isLoading && (
