@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { AppointmentCard } from "@/common/appointments/AppointmentCard";
 import { useGetMyAppointmentsQuery } from "@/services";
 
@@ -22,11 +23,14 @@ const Appointments = () => {
             </>
           )}
           {!isLoading && data?.items.length && (
-            <div className="flex-1 flex-col h-full overflow-y-scroll gap-y-8">
-              {data?.items.map((appointment) => (
+            <div className="flex-1 flex-col h-full overflow-y-scroll p-4">
+              {data?.items.map((appointment, index) => (
                 <AppointmentCard
                   key={appointment.id}
                   appointment={appointment}
+                  sameDayAsPrevious={dayjs(
+                    data?.items[index - 1]?.startTime
+                  ).isSame(appointment.startTime, "day")}
                 />
               ))}
             </div>

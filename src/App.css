@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Kenia&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kenia&display=swap");
 .page {
   @apply flex-1 w-full flex flex-col justify-start items-center p-8;
+}
+
+.custom-btn {
+  @apply btn h-auto normal-case;
+}
+
+.custom-btn:hover {
+  @apply brightness-75 bg-gray-600 text-gray-200;
 }
