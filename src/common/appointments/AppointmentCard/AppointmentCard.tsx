@@ -10,7 +10,7 @@ const AppointmentCard = ({
   appointment,
   sameDayAsPrevious,
 }: AppointmentCardProps) => {
-  const { description, tattooist, type, startTime } = appointment;
+  const { id, description, tattooist, type, startTime } = appointment;
 
   const cardTitle = `${(type as string)[0].toUpperCase()}${type?.slice(
     1
@@ -28,7 +28,7 @@ const AppointmentCard = ({
       <div
         className={clsx(
           "custom-btn rounded-3xl shadow-xl flex items-center p-3 text-gray-700 mb-4",
-          bgColors400[Math.floor(Math.random() * bgColors400.length)]
+          bgColors400[id % bgColors400.length]
         )}
       >
         <div className="flex flex-col items-center rounded-full py-4 pl-3 pr-1">

@@ -3,7 +3,7 @@ import { User } from "./user";
 export type AppointmentType = "tattoo" | "piercing";
 
 export interface Appointment {
-  id?: number;
+  id: number;
   description?: string;
   startTime: string;
   endTime: string;
