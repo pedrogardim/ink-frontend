@@ -10,6 +10,7 @@ import {
   mdiChat,
   mdiCheck,
   mdiClock,
+  mdiClose,
   mdiPencil,
   mdiRing,
   mdiWater,
@@ -36,7 +37,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
   const onClose = () => navigate("/appointments");
 
   //TODO: implement actual logic
-  const isConfirmed = false;
+  const isConfirmed = true;
 
   useEffect(() => {
     if (id && !existingData) {
@@ -60,14 +61,17 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
         {!isLoading && appointment && (
           <div className="flex flex-col">
             <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-gray-700"
+              className="btn btn-md btn-circle btn-ghost absolute right-2 top-2 text-gray-700"
               onClick={onClose}
             >
-              ✕
+              <Icon path={mdiClose} size={1} />
             </button>
             <div
               className={clsx(
-                "h-48 w-full flex flex-col justify-center items-center text-5xl text-gray-700 font-bold",
+                "w-full flex flex-col justify-center items-center ",
+                "text-gray-700 font-bold",
+                "h-36 md:h-48 lg:h-52",
+                "text-2xl sm:text-3xl md:text-4xl ",
                 bgColors400[id % bgColors400.length]
               )}
             >
@@ -78,11 +82,11 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
               </span>
             </div>
             <div className="w-full max-w-screen-md mx-auto px-8 pb-8 flex flex-col gap-y-2">
-              <div className="flex -mt-12 items-center gap-x-4">
+              <div className="flex -mt-12 items-center">
                 <img
                   src={tattooist?.profilePicUrl}
                   alt={tattooist?.firstName}
-                  className="rounded-full w-24 h-24 mr-1 border-8 border-base-100"
+                  className="rounded-full w-24 h-24 mr-2 border-8 border-base-100"
                 />
                 <button className="btn btn-circle btn-secondary mr-auto">
                   <Icon path={mdiChat} size={1} />
