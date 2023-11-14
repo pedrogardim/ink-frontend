@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { authBaseQuery } from "@/utils/http";
 import { User } from "@/types/user";
+import { PaginationResponse } from "@/types/pagination";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -14,7 +15,16 @@ export const userApi = createApi({
       }),
       transformResponse: (response: { data: User }) => response.data,
     }),
+    getTattooists: builder.query({
+      query: (params) => ({
+        url: "/users/getTattooists",
+        params,
+      }),
+      transformResponse: (response: { data: PaginationResponse<User> }) =>
+        response.data.items,
+    }),
   }),
 });
 
-export const { useUpdateMyProfileMutation } = userApi;
+export const { useUpdateMyProfileMutation, useLazyGetTattooistsQuery } =
+  userApi;

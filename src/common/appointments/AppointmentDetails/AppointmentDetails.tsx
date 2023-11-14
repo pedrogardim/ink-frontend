@@ -18,6 +18,7 @@ import {
 import clsx from "clsx";
 import { bgColors400 } from "@/utils/colors";
 import { Calendar } from "..";
+import { TattooistSelector } from "../TattooistSelector";
 
 interface AppointmentDetailsProps {
   id?: number;
@@ -167,12 +168,12 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
                 </div>
               </div>
               <div className="flex flex-col flex-1">
-                <span className="font-bold text-gray-500">Status</span>
+                <span className="font-bold text-gray-500">Tattooist</span>
                 <div className="flex items-center">
-                  <span className="font-bold capitalize mr-1">
-                    {isConfirmed ? "Confirmed" : "Pending"}
-                  </span>
-                  <Icon path={isConfirmed ? mdiCheck : mdiClock} size={1} />
+                  <TattooistSelector
+                    tattooist={tattooist}
+                    onSelect={console.log}
+                  />
                 </div>
               </div>
             </div>
@@ -181,6 +182,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
             <div className="flex">
               <Calendar />
             </div>
+
             <div className="flex justify-end">
               <button className="btn mr-2" onClick={() => setIsEditing(false)}>
                 Cancel
