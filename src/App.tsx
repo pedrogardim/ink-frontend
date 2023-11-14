@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Login, Register, Profile, Home, Appointments } from "./pages";
 import { Header, Alert } from "./common";
 
@@ -14,6 +14,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/appointments/:id?" element={<Appointments />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
