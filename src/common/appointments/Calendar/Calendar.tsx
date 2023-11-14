@@ -40,12 +40,12 @@ const Calendar = ({
             {weekday}
           </div>
         ))}
-        {calendarDays.map((tile) => {
+        {calendarDays.map((tile, i) => {
           const dayDate =
             tile && dayjs(monthDate).set("date", tile?.day).toDate();
           return (
             <div
-              key={tile?.day}
+              key={i}
               className={clsx(
                 cellClassName,
                 (tile?.weekDay || 0) >= 5 && weekEndClassName,
