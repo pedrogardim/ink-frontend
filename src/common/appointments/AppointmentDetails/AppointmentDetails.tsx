@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { useLazyGetMyAppointmentQuery } from "@/services";
 import { useDispatch } from "@/store/hooks";
@@ -17,6 +17,7 @@ import {
 } from "@mdi/js";
 import clsx from "clsx";
 import { bgColors400 } from "@/utils/colors";
+import { Calendar } from "..";
 
 interface AppointmentDetailsProps {
   id?: number;
@@ -25,6 +26,7 @@ interface AppointmentDetailsProps {
 const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
 
   const [getAppointment, { data, isLoading, error }] =
     useLazyGetMyAppointmentQuery();
@@ -40,6 +42,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
   const isConfirmed = true;
 
   useEffect(() => {
+    setIsEditing(false);
     if (id && !existingData) {
       getAppointment(id);
     }
@@ -58,7 +61,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
     <dialog className="modal modal-open" id="my_modal_7">
       <div className="modal-box p-0 w-11/12 max-w-screen-lg">
         {isLoading && <span className="loading loading-dots loading-lg"></span>}
-        {!isLoading && appointment && (
+        {!isLoading && appointment && !isEditing && (
           <div className="flex flex-col">
             <button
               className="btn btn-md btn-circle btn-ghost absolute right-2 top-2 text-gray-700"
@@ -91,7 +94,10 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
                 <button className="btn btn-circle btn-secondary mr-auto">
                   <Icon path={mdiChat} size={1} />
                 </button>
-                <button className="btn btn-circle btn-primary">
+                <button
+                  className="btn btn-circle btn-primary"
+                  onClick={() => setIsEditing(true)}
+                >
                   <Icon path={mdiPencil} size={1} />
                 </button>
               </div>
@@ -134,6 +140,52 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
                   {isConfirmed ? "Cancel" : "Confirm"}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+        {!isLoading && appointment && isEditing && (
+          <div className="w-full p-8 flex flex-col gap-y-2">
+            <button
+              className="btn btn-md btn-circle btn-ghost absolute right-2 top-2 text-gray-700"
+              onClick={onClose}
+            >
+              <Icon path={mdiClose} size={1} />
+            </button>
+
+            <span className="text-3xl font-bold mr-auto mb-4">
+              Edit appointment
+            </span>
+            <div className="flex">
+              <div className="flex flex-col flex-1">
+                <span className="font-bold text-gray-500">Type</span>
+                <div className="flex items-center">
+                  <span className="font-bold capitalize mr-1">{type}</span>
+                  <Icon
+                    path={type === "tattoo" ? mdiWater : mdiRing}
+                    size={1}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col flex-1">
+                <span className="font-bold text-gray-500">Status</span>
+                <div className="flex items-center">
+                  <span className="font-bold capitalize mr-1">
+                    {isConfirmed ? "Confirmed" : "Pending"}
+                  </span>
+                  <Icon path={isConfirmed ? mdiCheck : mdiClock} size={1} />
+                </div>
+              </div>
+            </div>
+            <span className="font-bold text-gray-500">Description</span>
+            <p>{description}</p>
+            <div className="flex">
+              <Calendar />
+            </div>
+            <div className="flex justify-end">
+              <button className="btn mr-2" onClick={() => setIsEditing(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-primary">Save</button>
             </div>
           </div>
         )}

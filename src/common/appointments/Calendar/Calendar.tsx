@@ -8,7 +8,7 @@ const weekDayLabels = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 interface CalendarProps {
   monthDate?: Date;
   events?: (Date | string)[];
-  onSelect: (date: Date) => void;
+  onSelect?: (date: Date) => void;
 }
 
 const Calendar = ({
@@ -17,7 +17,7 @@ const Calendar = ({
   onSelect = () => {},
 }: CalendarProps) => {
   const cellClassName =
-    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer relative";
+    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer relative p-1";
 
   const weekEndClassName = "text-gray-600 pointer-events-none";
 
