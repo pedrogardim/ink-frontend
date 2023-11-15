@@ -9,17 +9,27 @@ interface CalendarProps {
   monthDate?: Date;
   events?: (Date | string)[];
   onSelect?: (date: Date) => void;
+  selectedDate?: Date;
 }
 
 const Calendar = ({
   monthDate = new Date(),
   events = [],
   onSelect = () => {},
+  selectedDate,
 }: CalendarProps) => {
-  const cellClassName =
-    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer relative p-1";
+  const cellClass = clsx(
+    "aspect-square relative p-1 rounded",
+    "flex items-center justify-center transition",
+    "select-none cursor-pointer",
+    "hover:bg-gray-700"
+  );
 
-  const weekEndClassName = "text-gray-600 pointer-events-none";
+  const selectedTileClass = "bg-gray-500 text-base-100";
+  const disabledTileClass = "text-gray-600 pointer-events-none";
+
+  const weekdayTileClass =
+    "font-bold text-gray-500 text-sm pointer-events-none";
 
   const calendarDays = useMemo(
     () => createCalendarDays(monthDate),
@@ -33,10 +43,7 @@ const Calendar = ({
       </h3>
       <div className="flex-1 grid grid-cols-7">
         {weekDayLabels.map((weekday) => (
-          <div
-            key={weekday}
-            className={clsx(cellClassName, "font-bold text-gray-500 text-sm")}
-          >
+          <div key={weekday} className={clsx(cellClass, weekdayTileClass)}>
             {weekday}
           </div>
         ))}
@@ -47,9 +54,12 @@ const Calendar = ({
             <div
               key={i}
               className={clsx(
-                cellClassName,
-                (tile?.weekDay || 0) >= 5 && weekEndClassName,
-                "hover:bg-gray-700"
+                cellClass,
+                ((tile?.weekDay || 0) >= 5 || !tile) && disabledTileClass,
+                selectedDate &&
+                  dayDate &&
+                  +selectedDate === +dayDate &&
+                  selectedTileClass
               )}
               onClick={() => tile && onSelect(dayDate as Date)}
             >
