@@ -20,8 +20,12 @@ const TattooistSelector = ({ tattooist, onSelect }: TattooistSelectorProps) => {
     return () => clearTimeout(debounced);
   }, [searchValue]);
 
+  useEffect(() => {
+    if (tattooist) setSearchValue(tattooist.firstName as string);
+  }, [tattooist]);
+
   return (
-    <div className="dropdown">
+    <div className="dropdown" key={tattooist?.id || 0}>
       {tattooist && (
         <img
           src={tattooist.profilePicUrl}
@@ -31,9 +35,9 @@ const TattooistSelector = ({ tattooist, onSelect }: TattooistSelectorProps) => {
       )}
       <input
         className={clsx("input input-bordered", tattooist && "pl-12")}
-        placeholder={tattooist?.firstName || "Pick a tattooist"}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
+        onBlur={() => setSearchValue(tattooist?.firstName || "")}
       />
       <ul
         className="dropdown-content flex flex-col flex-nowrap z-[1] menu p-2 shadow bg-base-100 rounded-box w-full h-64 overflow-y-scroll"

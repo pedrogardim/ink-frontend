@@ -24,7 +24,7 @@ const ViewAppointment = ({
   onClose,
   setIsEditing,
 }: ViewAppointmentProps) => {
-  const { id, tattooist, startTime, endTime, description, type } =
+  const { tattooist, startTime, endTime, description, type } =
     appointment as Appointment;
 
   //TODO: implement actual logic
@@ -44,7 +44,7 @@ const ViewAppointment = ({
           "text-gray-700 font-bold",
           "h-36 md:h-48 lg:h-52",
           "text-2xl sm:text-3xl md:text-4xl ",
-          bgColors400[id % bgColors400.length]
+          bgColors400[(tattooist?.id as number) % bgColors400.length]
         )}
       >
         <span>{dayjs(startTime).format("D MMM YYYY")},</span>

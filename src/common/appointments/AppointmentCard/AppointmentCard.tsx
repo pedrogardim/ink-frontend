@@ -32,7 +32,7 @@ const AppointmentCard = ({
       <div
         className={clsx(
           "custom-btn rounded-3xl shadow-xl flex items-center p-3 text-gray-700 mb-2 md:mb-4",
-          bgColors400[id % bgColors400.length]
+          bgColors400[(tattooist?.id as number) % bgColors400.length]
         )}
       >
         <div className="flex flex-col items-center rounded-full py-4 pl-3 pr-1">
