@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { AppointmentCard, AppointmentDetails, Calendar } from "@/common";
-import { useGetMyAppointmentsQuery } from "@/services";
+import { useLazyGetMyAppointmentsQuery } from "@/services";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { data, isLoading, error } = useGetMyAppointmentsQuery({});
+  const [getAppointments, { data, isLoading }] = useLazyGetMyAppointmentsQuery(
+    {}
+  );
+  const [selectedDate, setSelectedDate] = useState<Date>();
+
+  useEffect(() => {
+    getAppointments(selectedDate ? { date: +selectedDate } : {});
+  }, [selectedDate]);
 
   const onDateSelect = (date: Date) => {
-    console.log(date);
+    setSelectedDate((p) => (!p || +p !== +date ? date : undefined));
   };
 
   const { id: selectedAppointment } = useParams();
@@ -24,11 +31,13 @@ const Appointments = () => {
               onSelect={onDateSelect}
               events={data?.items.map((e) => e.startTime)}
               monthDate={new Date(2023, 9)}
+              selectedDate={selectedDate}
             />
             <Calendar
               onSelect={onDateSelect}
               events={data?.items.map((e) => e.startTime)}
               monthDate={new Date(2023, 10)}
+              selectedDate={selectedDate}
             />
           </div>
           <div className="basis-full md:basis-3/4 flex justify-center items-center flex-col gap-2">
@@ -38,12 +47,13 @@ const Appointments = () => {
             {!isLoading && !data?.items.length && (
               <>
                 <h3 className="text-2xl font-bold">
-                  You have no appointments yet
+                  You have no appointments{" "}
+                  {selectedDate ? "on this day" : "yet"}
                 </h3>
                 <button className="btn btn-primary">Ask for one!</button>
               </>
             )}
-            {!isLoading && data?.items.length && (
+            {!isLoading && !!data?.items.length && (
               <div className="flex-1 flex-col h-full overflow-y-scroll p-0 md:p-4">
                 {data?.items.map((appointment, index) => (
                   <AppointmentCard

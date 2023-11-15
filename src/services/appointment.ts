@@ -8,7 +8,7 @@ export const appointmentApi = createApi({
   baseQuery: authBaseQuery,
   endpoints: (builder) => ({
     getMyAppointments: builder.query({
-      query: () => "/appointments/my",
+      query: (params) => ({ url: "/appointments/my", params }),
       transformResponse: (response: {
         data: PaginationResponse<Appointment>;
       }) => response.data,
@@ -24,4 +24,5 @@ export const {
   useGetMyAppointmentQuery,
   useGetMyAppointmentsQuery,
   useLazyGetMyAppointmentQuery,
+  useLazyGetMyAppointmentsQuery,
 } = appointmentApi;
