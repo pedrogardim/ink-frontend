@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Icon from "@mdi/react";
-import { mdiClose, mdiRing, mdiWater } from "@mdi/js";
-import { Appointment } from "@/types/appointment";
-import { Calendar } from "../../Calendar";
-import { TattooistSelector } from "../../TattooistSelector";
-import { TimeSelector } from "../..";
+import { mdiClose } from "@mdi/js";
+import { TimeSelector, TattooistSelector, Calendar } from "../..";
+import type { Appointment } from "@/types/appointment";
+import { start } from "repl";
 
 interface EditAppointmentProps {
   appointment: Appointment;
@@ -19,7 +18,29 @@ const EditAppointment = ({
   setIsEditing,
 }: EditAppointmentProps) => {
   const [appointment, setAppointment] = useState(originalAppointment);
-  const { id, tattooist, description, type } = appointment as Appointment;
+  const { id, tattooist, description, type, startTime, endTime } =
+    appointment as Appointment;
+
+  const handleDateChange = (date: Date) => {
+    const modifyDay = (time: Date | string) =>
+      dayjs(time).set("date", date.getDate()).toDate();
+
+    setAppointment((prev) => ({
+      ...prev,
+      startTime: modifyDay(prev.startTime),
+      endTime: modifyDay(prev.endTime),
+    }));
+  };
+
+  const handleTimeChange = (type: "startTime" | "endTime", date: Date) => {
+    setAppointment((prev) => ({
+      ...prev,
+      [type]: dayjs(prev[type])
+        .set("hour", dayjs(date).hour())
+        .set("minute", dayjs(date).minute())
+        .toDate(),
+    }));
+  };
 
   useEffect(() => {
     setAppointment(originalAppointment);
@@ -44,34 +65,48 @@ const EditAppointment = ({
               pagination
               selectedDate={new Date(appointment.startTime)}
               monthDate={new Date(appointment.startTime)}
+              onSelect={handleDateChange}
             />
           </div>
-          <div className="flex flex-row justify-center items-center">
+          <div className="flex flex-row justify-center items-center gap-x-2">
             <TimeSelector
               value={appointment.startTime}
-              onChange={console.log}
+              onChange={(date) => handleTimeChange("startTime", date)}
+              max={new Date(appointment.endTime)}
             />
-            {"-"}
-            <TimeSelector value={appointment.endTime} onChange={console.log} />
+            <span>-</span>
+            <TimeSelector
+              value={appointment.endTime}
+              onChange={(date) => handleTimeChange("endTime", date)}
+              min={new Date(appointment.startTime)}
+            />
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-y-2">
-          <span className="font-bold text-gray-500">Type</span>
-          <div className="dropdown flex-grow-0 capitalize">
-            <label tabIndex={0} className="btn m-1 capitalize">
-              {type}
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 absolute"
-            >
-              {["tattoo", "piercieng"].map((e) => (
-                <li key={e}>
-                  <a>{e}</a>
-                </li>
-              ))}
-            </ul>
+          <span className="font-bold text-gray-500">Date</span>
+          <div className="font-bold text-xl gap-x-2">
+            {`${dayjs(startTime).format("D MMM YYYY, HH:mm - ")} 
+             ${dayjs(endTime).format("HH:mm ")} 
+              (${dayjs(0)
+                .set(
+                  "hour",
+                  dayjs(endTime).get("hour") - dayjs(startTime).get("hour")
+                )
+                .set(
+                  "minute",
+                  dayjs(endTime).get("minute") - dayjs(startTime).get("minute")
+                )
+
+                .format("HH:mm")}h)`}
           </div>
+          <span className="font-bold text-gray-500">Type</span>
+          <select className="select select-bordered w-56">
+            <option disabled selected>
+              Work type
+            </option>
+            <option>Tattoo</option>
+            <option>Piercing</option>
+          </select>
           <span className="font-bold text-gray-500">Tattooist</span>
           <div className="flex items-center">
             <TattooistSelector tattooist={tattooist} onSelect={console.log} />

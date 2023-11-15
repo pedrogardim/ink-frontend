@@ -46,7 +46,7 @@ const Calendar = ({
   };
 
   useEffect(() => {
-    setSelectedMonth(monthDate);
+    setSelectedMonth(dayjs(monthDate).startOf("month").toDate());
   }, [monthDate]);
 
   return (
@@ -90,7 +90,7 @@ const Calendar = ({
                 ((tile?.weekDay || 0) >= 5 || !tile) && disabledTileClass,
                 selectedDate &&
                   dayDate &&
-                  +selectedDate === +dayDate &&
+                  +dayjs(selectedDate).startOf("day") === +dayDate &&
                   selectedTileClass
               )}
               onClick={() => tile && onSelect(dayDate as Date)}

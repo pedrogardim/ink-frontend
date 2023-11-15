@@ -40,7 +40,7 @@ const ViewAppointment = ({
       </button>
       <div
         className={clsx(
-          "w-full flex flex-col justify-center items-center ",
+          "w-full flex flex-col justify-center items-center rounded-t-xl",
           "text-gray-700 font-bold",
           "h-36 md:h-48 lg:h-52",
           "text-2xl sm:text-3xl md:text-4xl ",

@@ -20,10 +20,6 @@ const TattooistSelector = ({ tattooist, onSelect }: TattooistSelectorProps) => {
     return () => clearTimeout(debounced);
   }, [searchValue]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div className="dropdown">
       {tattooist && (
