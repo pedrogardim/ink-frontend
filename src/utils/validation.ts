@@ -36,6 +36,7 @@ export const appointmentsRules: ValidationRules = {
   },
   type: {
     validation: (type) => type === "tattoo" || type === "piercing",
+    required: true,
   },
 };
 

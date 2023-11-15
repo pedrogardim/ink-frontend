@@ -9,23 +9,25 @@ import { TimeSelector, TattooistSelector, Calendar } from "../..";
 import type { Appointment } from "@/types/appointment";
 import type { User } from "@/types/user";
 import {
+  useCreateMyAppointmentMutation,
   useLazyGetMyAppointmentsQuery,
   useUpdateMyAppointmentMutation,
 } from "@/services";
 import { showAlert } from "@/store/slices/uiSlice";
 import { useDispatch } from "@/store/hooks";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface EditAppointmentProps {
   appointment: Appointment;
   onClose: () => void;
   setIsEditing: (isEditing: boolean) => void;
+  isCreating?: boolean;
 }
 
 const EditAppointment = ({
   appointment: originalAppointment,
   onClose,
   setIsEditing,
+  isCreating,
 }: EditAppointmentProps) => {
   const {
     values: appointment,
@@ -43,6 +45,7 @@ const EditAppointment = ({
     appointment as Appointment;
 
   const [updateAppointment] = useUpdateMyAppointmentMutation();
+  const [createAppointment] = useCreateMyAppointmentMutation();
   const [refreshAppointments] = useLazyGetMyAppointmentsQuery();
 
   const handleDateChange = (date: Date) => {
@@ -80,7 +83,7 @@ const EditAppointment = ({
       dispatch(showAlert({ type: "error", message: JSON.stringify(errors) }));
       return;
     }
-    const res = await updateAppointment({
+    const res = await (isCreating ? createAppointment : updateAppointment)({
       id,
       body: { tattooistId, description, type, startTime, endTime },
     });
@@ -88,7 +91,7 @@ const EditAppointment = ({
       dispatch(
         showAlert({
           type: "error",
-          message: (res.error as FetchBaseQueryError).data.error.message,
+          message: (res.error as any).data.error.message,
         })
       );
     }
@@ -114,7 +117,9 @@ const EditAppointment = ({
         <Icon path={mdiClose} size={1} />
       </button>
 
-      <span className="text-3xl font-bold mr-auto mb-4">Edit appointment</span>
+      <span className="text-3xl font-bold mr-auto mb-4">{`${
+        isCreating ? "Create" : "Edit"
+      } appointment`}</span>
       <div className="flex">
         <div className="flex flex-col flex-1 justify-center items-center">
           <div className="flex-1 w-full max-w-xs">
@@ -158,7 +163,10 @@ const EditAppointment = ({
           </div>
           <span className="font-bold text-gray-500">Type</span>
           <select
-            className="select select-bordered w-56"
+            className={clsx(
+              "select select-bordered w-56",
+              errors.type && "select-error"
+            )}
             value={type}
             onChange={(e) => onChange("type", e.target.value)}
           >
@@ -173,6 +181,7 @@ const EditAppointment = ({
             <TattooistSelector
               tattooist={tattooist}
               onSelect={handleTattooistChange}
+              error={errors.tattooistId}
             />
           </div>
           <span className="font-bold text-gray-500">Description</span>
@@ -190,9 +199,11 @@ const EditAppointment = ({
       </div>
 
       <div className="flex justify-end">
-        <button className="btn mr-2" onClick={() => setIsEditing(false)}>
-          Cancel
-        </button>
+        {!isCreating && (
+          <button className="btn mr-2" onClick={() => setIsEditing(false)}>
+            Cancel
+          </button>
+        )}
         <button className="btn btn-primary" onClick={handleSubmit}>
           Save
         </button>

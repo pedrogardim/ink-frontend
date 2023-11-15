@@ -6,28 +6,34 @@ import { showAlert } from "@/store/slices/uiSlice";
 import { Appointment } from "@/types/appointment";
 import ViewAppointment from "./partials/ViewAppointment";
 import EditAppointment from "./partials/EditAppointment";
+import { getNewAppointment } from "@/utils/appointments";
 
 interface AppointmentDetailsProps {
   id?: number;
   existingData?: Appointment;
+  isCreating?: boolean;
 }
-const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
+const AppointmentDetails = ({
+  id,
+  existingData,
+  isCreating,
+}: AppointmentDetailsProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!isCreating);
 
   const [getAppointment, { data, isLoading, error }] =
     useLazyGetMyAppointmentQuery();
 
-  const appointment = existingData || data || {};
+  const appointment = isCreating
+    ? getNewAppointment()
+    : existingData || data || null;
 
   const onClose = () => navigate("/appointments");
 
   useEffect(() => {
     setIsEditing(false);
-    if (id && !existingData) {
-      getAppointment(id);
-    }
+    if (id && !existingData && !isCreating) getAppointment(id);
   }, [id]);
 
   useEffect(() => {
@@ -37,7 +43,11 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
     }
   }, [error]);
 
-  if (!id) return;
+  useEffect(() => {
+    setIsEditing(!!isCreating);
+  }, [isCreating]);
+
+  if (!appointment) return;
 
   return (
     <dialog className="modal modal-open" id="my_modal_7">
@@ -55,6 +65,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
             appointment={appointment as Appointment}
             onClose={onClose}
             setIsEditing={setIsEditing}
+            isCreating={isCreating}
           />
         )}
       </div>

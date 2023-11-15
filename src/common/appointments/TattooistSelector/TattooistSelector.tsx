@@ -6,9 +6,14 @@ import { useLazyGetTattooistsQuery } from "@/services";
 interface TattooistSelectorProps {
   tattooist?: User;
   onSelect: (tattoist: User) => void;
+  error?: string;
 }
 
-const TattooistSelector = ({ tattooist, onSelect }: TattooistSelectorProps) => {
+const TattooistSelector = ({
+  tattooist,
+  onSelect,
+  error,
+}: TattooistSelectorProps) => {
   const [getTattooists, { data, isLoading }] = useLazyGetTattooistsQuery();
   const [searchValue, setSearchValue] = useState("");
 
@@ -25,7 +30,10 @@ const TattooistSelector = ({ tattooist, onSelect }: TattooistSelectorProps) => {
   }, [tattooist]);
 
   return (
-    <div className="dropdown" key={tattooist?.id || 0}>
+    <div
+      className={clsx("dropdown", error && "border border-error rounded-lg")}
+      key={tattooist?.id || 0}
+    >
       {tattooist && (
         <img
           src={tattooist.profilePicUrl}
