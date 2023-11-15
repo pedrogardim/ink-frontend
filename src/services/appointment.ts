@@ -17,6 +17,14 @@ export const appointmentApi = createApi({
       query: (id) => `/appointments/my/${id}`,
       transformResponse: (response: { data: Appointment }) => response.data,
     }),
+    updateMyAppointment: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/appointments/my/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: { data: Appointment }) => response.data,
+    }),
   }),
 });
 
@@ -25,4 +33,5 @@ export const {
   useGetMyAppointmentsQuery,
   useLazyGetMyAppointmentQuery,
   useLazyGetMyAppointmentsQuery,
+  useUpdateMyAppointmentMutation,
 } = appointmentApi;

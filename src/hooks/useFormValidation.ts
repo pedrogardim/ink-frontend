@@ -6,7 +6,7 @@ const useFormValidation = (formType: FormType, initialValue: any = {}) => {
   const [values, setValues] = useState<{ [key: string]: any }>(initialValue);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const onChange = (key: string, value: string) => {
+  const onChange = (key: string, value: any) => {
     setErrors((prev) => {
       delete prev[key];
       return prev;
@@ -37,7 +37,7 @@ const useFormValidation = (formType: FormType, initialValue: any = {}) => {
     return isValid;
   };
 
-  return { values, errors, onChange, onBlur, validateAll };
+  return { values, errors, onChange, onBlur, validateAll, setValues };
 };
 
 export default useFormValidation;

@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiClose } from "@mdi/js";
+import useFormValidation from "@/hooks/useFormValidation";
 import { TimeSelector, TattooistSelector, Calendar } from "../..";
 import type { Appointment } from "@/types/appointment";
-import { start } from "repl";
+import type { User } from "@/types/user";
+import {
+  useLazyGetMyAppointmentsQuery,
+  useUpdateMyAppointmentMutation,
+} from "@/services";
+import { showAlert } from "@/store/slices/uiSlice";
+import { useDispatch } from "@/store/hooks";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface EditAppointmentProps {
   appointment: Appointment;
@@ -17,9 +27,23 @@ const EditAppointment = ({
   onClose,
   setIsEditing,
 }: EditAppointmentProps) => {
-  const [appointment, setAppointment] = useState(originalAppointment);
-  const { id, tattooist, description, type, startTime, endTime } =
+  const {
+    values: appointment,
+    setValues: setAppointment,
+    errors,
+    onChange,
+    onBlur,
+    validateAll,
+  } = useFormValidation("appointment", originalAppointment);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { id, tattooist, tattooistId, description, type, startTime, endTime } =
     appointment as Appointment;
+
+  const [updateAppointment] = useUpdateMyAppointmentMutation();
+  const [refreshAppointments] = useLazyGetMyAppointmentsQuery();
 
   const handleDateChange = (date: Date) => {
     const modifyDay = (time: Date | string) =>
@@ -40,6 +64,39 @@ const EditAppointment = ({
         .set("minute", dayjs(date).minute())
         .toDate(),
     }));
+  };
+
+  const handleTattooistChange = (tattooist: User) => {
+    setAppointment((prev) => ({
+      ...prev,
+      tattooist,
+      tattooistId: tattooist.id,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    const isValid = validateAll();
+    if (!isValid) {
+      dispatch(showAlert({ type: "error", message: JSON.stringify(errors) }));
+      return;
+    }
+    const res = await updateAppointment({
+      id,
+      body: { tattooistId, description, type, startTime, endTime },
+    });
+    if ("error" in res) {
+      dispatch(
+        showAlert({
+          type: "error",
+          message: (res.error as FetchBaseQueryError).data.error.message,
+        })
+      );
+    }
+    if ("data" in res) {
+      dispatch(showAlert({ type: "success", message: "Appointment saved" }));
+      await refreshAppointments({});
+      navigate("/appointments");
+    }
   };
 
   useEffect(() => {
@@ -100,22 +157,34 @@ const EditAppointment = ({
                 .format("HH:mm")}h)`}
           </div>
           <span className="font-bold text-gray-500">Type</span>
-          <select className="select select-bordered w-56">
+          <select
+            className="select select-bordered w-56"
+            value={type}
+            onChange={(e) => onChange("type", e.target.value)}
+          >
             <option disabled selected>
               Work type
             </option>
-            <option>Tattoo</option>
-            <option>Piercing</option>
+            <option value="tattoo">Tattoo</option>
+            <option value="piercing">Piercing</option>
           </select>
           <span className="font-bold text-gray-500">Tattooist</span>
           <div className="flex items-center">
-            <TattooistSelector tattooist={tattooist} onSelect={console.log} />
+            <TattooistSelector
+              tattooist={tattooist}
+              onSelect={handleTattooistChange}
+            />
           </div>
           <span className="font-bold text-gray-500">Description</span>
           <textarea
-            className="textarea textarea-bordered max-h-36"
+            className={clsx(
+              "textarea textarea-bordered max-h-36",
+              errors.description && "textarea-error"
+            )}
             placeholder="Some description..."
             value={description}
+            onChange={(e) => onChange("description", e.target.value)}
+            onBlur={() => onBlur("description")}
           ></textarea>
         </div>
       </div>
@@ -124,7 +193,9 @@ const EditAppointment = ({
         <button className="btn mr-2" onClick={() => setIsEditing(false)}>
           Cancel
         </button>
-        <button className="btn btn-primary">Save</button>
+        <button className="btn btn-primary" onClick={handleSubmit}>
+          Save
+        </button>
       </div>
     </div>
   );

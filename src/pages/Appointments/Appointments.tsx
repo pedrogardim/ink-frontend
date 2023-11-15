@@ -6,9 +6,9 @@ import { useLazyGetMyAppointmentsQuery } from "@/services";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const [getAppointments, { data, isLoading }] = useLazyGetMyAppointmentsQuery(
-    {}
-  );
+  const [getAppointments, { data, isLoading }] =
+    useLazyGetMyAppointmentsQuery();
+
   const [selectedDate, setSelectedDate] = useState<Date>();
 
   useEffect(() => {
