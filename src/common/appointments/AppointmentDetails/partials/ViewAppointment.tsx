@@ -57,7 +57,7 @@ const ViewAppointment = ({
           <img
             src={tattooist?.profilePicUrl}
             alt={tattooist?.firstName}
-            className="rounded-full w-24 h-24 mr-2 border-8 border-base-100"
+            className="rounded-full w-24 h-24 mr-2 border-8 border-base-100 bg-base-100"
           />
           <button className="btn btn-circle btn-secondary mr-auto">
             <Icon path={mdiChat} size={1} />

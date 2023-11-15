@@ -41,7 +41,7 @@ const AppointmentDetails = ({ id, existingData }: AppointmentDetailsProps) => {
 
   return (
     <dialog className="modal modal-open" id="my_modal_7">
-      <div className="modal-box p-0 w-11/12 max-w-screen-lg">
+      <div className="modal-box p-0 w-11/12 max-w-screen-lg overflow-visible">
         {isLoading && <span className="loading loading-dots loading-lg"></span>}
         {!isLoading && appointment && !isEditing && (
           <ViewAppointment
