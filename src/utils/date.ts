@@ -13,8 +13,9 @@ export const createCalendarDays = (
       day: i + 1,
       weekDay: (firstWeekDayOfMonth + i) % 7,
     }));
+  const lastMonthTiles = Array(8 - prevMonthTiles.length).fill(null);
 
-  const arr = [...prevMonthTiles, ...currentMonthTiles];
+  const arr = [...prevMonthTiles, ...currentMonthTiles, ...lastMonthTiles];
 
   return arr;
 };
