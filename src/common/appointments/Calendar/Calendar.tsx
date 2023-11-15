@@ -1,55 +1,97 @@
-import { useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { createCalendarDays } from "@/utils/date";
+import { mdiArrowLeft, mdiArrowRight } from "@mdi/js";
+import Icon from "@mdi/react";
 
 const weekDayLabels = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
+const cellClass = clsx(
+  "aspect-square relative p-1 rounded",
+  "flex items-center justify-center transition",
+  "select-none cursor-pointer",
+  "hover:bg-gray-700"
+);
+
+const selectedTileClass = "bg-gray-500 text-base-100";
+const disabledTileClass = "text-gray-600 pointer-events-none";
+
+const weekdayTileClass = "font-bold text-gray-500 text-sm pointer-events-none";
 
 interface CalendarProps {
   monthDate?: Date;
   events?: (Date | string)[];
-  onSelect: (date: Date) => void;
+  onSelect?: (date: Date) => void;
+  selectedDate?: Date;
+  pagination?: boolean;
 }
 
 const Calendar = ({
   monthDate = new Date(),
   events = [],
   onSelect = () => {},
+  selectedDate,
+  pagination = false,
 }: CalendarProps) => {
-  const cellClassName =
-    "aspect-square flex items-center justify-center transition rounded select-none cursor-pointer relative";
-
-  const weekEndClassName = "text-gray-600 pointer-events-none";
+  const [selectedMonth, setSelectedMonth] = useState(monthDate);
 
   const calendarDays = useMemo(
-    () => createCalendarDays(monthDate),
-    [monthDate]
+    () => createCalendarDays(selectedMonth),
+    [selectedMonth]
   );
+
+  const onMonthChange = (value: number) => {
+    setSelectedMonth((p) => dayjs(p).add(value, "month").toDate());
+  };
+
+  useEffect(() => {
+    setSelectedMonth(dayjs(monthDate).startOf("month").toDate());
+  }, [monthDate]);
 
   return (
     <div className="m-4">
-      <h3 className="font-bold text-md text-center w-full mb-2">
-        {dayjs(monthDate).format("MMMM YYYY")}
-      </h3>
+      <div className="flex justify-between items-center">
+        {pagination && (
+          <button
+            className="btn btn-circle btn-sm"
+            onClick={() => onMonthChange(-1)}
+          >
+            <Icon path={mdiArrowLeft} size={0.8} />
+          </button>
+        )}
+        <h3 className="font-bold text-md text-center w-full mb-2">
+          {dayjs(selectedMonth).format("MMMM YYYY")}
+        </h3>
+        {pagination && (
+          <button
+            className="btn btn-circle btn-sm"
+            onClick={() => onMonthChange(1)}
+          >
+            <Icon path={mdiArrowRight} size={0.8} />
+          </button>
+        )}
+      </div>
+
       <div className="flex-1 grid grid-cols-7">
         {weekDayLabels.map((weekday) => (
-          <div
-            key={weekday}
-            className={clsx(cellClassName, "font-bold text-gray-500 text-sm")}
-          >
+          <div key={weekday} className={clsx(cellClass, weekdayTileClass)}>
             {weekday}
           </div>
         ))}
-        {calendarDays.map((tile) => {
+        {calendarDays.map((tile, i) => {
           const dayDate =
-            tile && dayjs(monthDate).set("date", tile?.day).toDate();
+            tile && dayjs(selectedMonth).set("date", tile?.day).toDate();
           return (
             <div
-              key={tile?.day}
+              key={i}
               className={clsx(
-                cellClassName,
-                (tile?.weekDay || 0) >= 5 && weekEndClassName,
-                "hover:bg-gray-700"
+                cellClass,
+                ((tile?.weekDay || 0) >= 5 || !tile) && disabledTileClass,
+                selectedDate &&
+                  dayDate &&
+                  +dayjs(selectedDate).startOf("day") === +dayDate &&
+                  selectedTileClass
               )}
               onClick={() => tile && onSelect(dayDate as Date)}
             >

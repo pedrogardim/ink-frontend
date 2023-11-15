@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Kenia&display=swap");
+
+body,
+html {
+  @apply overflow-hidden;
+}
+
 .page {
   @apply flex-1 w-full flex flex-col justify-start items-center p-4 md:p-8;
 }

@@ -32,12 +32,11 @@ export const appointmentsRules: ValidationRules = {
   },
   description: {
     validation: (desc) => DESC_REGEX.test(desc) && typeof desc === "string",
-  },
-  imageUrl: {
-    validation: (url) => URL_REGEX.test(url),
+    required: true,
   },
   type: {
     validation: (type) => type === "tattoo" || type === "piercing",
+    required: true,
   },
 };
 
@@ -121,6 +120,11 @@ export const formTypes: {
   profile: {
     entity: "user",
     fields: Object.keys(userRules),
+    optionalFields: ["password"],
+  },
+  appointment: {
+    entity: "appointment",
+    fields: Object.keys(appointmentsRules),
     optionalFields: ["password"],
   },
 };

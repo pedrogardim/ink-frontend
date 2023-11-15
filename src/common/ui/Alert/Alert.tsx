@@ -4,7 +4,7 @@ import clsx from "clsx";
 import Icon from "@mdi/react";
 import {
   mdiAlert,
-  mdiAlertCircleCheckOutline,
+  mdiAlertCircleOutline,
   mdiCheckBold,
   mdiInformation,
 } from "@mdi/js";
@@ -31,7 +31,7 @@ const Alert = () => {
 
   const alertIcon = {
     success: mdiCheckBold,
-    error: mdiAlertCircleCheckOutline,
+    error: mdiAlertCircleOutline,
     info: mdiInformation,
     warning: mdiAlert,
   }[currentAlert.type];

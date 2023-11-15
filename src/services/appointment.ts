@@ -8,12 +8,39 @@ export const appointmentApi = createApi({
   baseQuery: authBaseQuery,
   endpoints: (builder) => ({
     getMyAppointments: builder.query({
-      query: () => "/appointments/my",
+      query: (params) => ({ url: "/appointments/my", params }),
       transformResponse: (response: {
         data: PaginationResponse<Appointment>;
       }) => response.data,
     }),
+    getMyAppointment: builder.query({
+      query: (id) => `/appointments/my/${id}`,
+      transformResponse: (response: { data: Appointment }) => response.data,
+    }),
+    updateMyAppointment: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/appointments/my/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: { data: Appointment }) => response.data,
+    }),
+    createMyAppointment: builder.mutation({
+      query: ({ body }) => ({
+        url: `/appointments/my`,
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: { data: Appointment }) => response.data,
+    }),
   }),
 });
 
-export const { useGetMyAppointmentsQuery } = appointmentApi;
+export const {
+  useGetMyAppointmentQuery,
+  useGetMyAppointmentsQuery,
+  useLazyGetMyAppointmentQuery,
+  useLazyGetMyAppointmentsQuery,
+  useUpdateMyAppointmentMutation,
+  useCreateMyAppointmentMutation
+} = appointmentApi;

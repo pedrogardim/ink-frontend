@@ -5,8 +5,8 @@ export type AppointmentType = "tattoo" | "piercing";
 export interface Appointment {
   id: number;
   description?: string;
-  startTime: string;
-  endTime: string;
+  startTime: string | Date;
+  endTime: string | Date;
   clientId?: number;
   tattooistId?: number;
   type?: AppointmentType;
