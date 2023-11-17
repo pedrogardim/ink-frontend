@@ -8,7 +8,7 @@ import {
   Appointments,
   Gallery,
   ArtistPortfolio,
-  Admin
+  Admin,
 } from "./pages";
 import { Header, Alert } from "./common";
 
@@ -25,7 +25,7 @@ function App() {
         <Route path="/appointments/:id?" element={<Appointments />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery/:id" element={<ArtistPortfolio />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/:entity?" element={<Admin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
