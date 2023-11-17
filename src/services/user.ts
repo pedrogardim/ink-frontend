@@ -23,8 +23,15 @@ export const userApi = createApi({
       transformResponse: (response: { data: PaginationResponse<User> }) =>
         response.data.items,
     }),
+    getTattooistById: builder.query({
+      query: (id) => `/users/getTattooist/${id}`,
+      transformResponse: (response: { data: User }) => response.data,
+    }),
   }),
 });
 
-export const { useUpdateMyProfileMutation, useLazyGetTattooistsQuery } =
-  userApi;
+export const {
+  useUpdateMyProfileMutation,
+  useLazyGetTattooistsQuery,
+  useLazyGetTattooistByIdQuery,
+} = userApi;
