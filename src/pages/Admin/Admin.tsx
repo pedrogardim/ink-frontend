@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useLazyGetAppointmentsQuery, useLazyGetUsersQuery } from "@/services";
+import {
+  useLazyGetAppointmentsQuery,
+  useLazyGetTattooWorksQuery,
+  useLazyGetUsersQuery,
+} from "@/services";
 import { useSelector } from "@/store/hooks";
 import UserTable from "./partials/UserTable";
 import AppointmentTable from "./partials/AppointmentTable";
+import TattooWorkTable from "./partials/TattooWorkTable";
 
 const adminEntities = ["users", "appointments", "tattooWorks"] as const;
 type AdminEntity = (typeof adminEntities)[number];
@@ -21,6 +26,11 @@ const Admin = () => {
     { data: appointments, isLoading: isLoadingAppointments },
   ] = useLazyGetAppointmentsQuery();
 
+  const [
+    getTattooWorks,
+    { data: tattooWorks, isLoading: isLoadingTattooWorks },
+  ] = useLazyGetTattooWorksQuery();
+
   const { searchValue } = useSelector((state) => state.ui);
 
   const isLoading = isLoadingUsers || isLoadingAppointments;
@@ -28,20 +38,19 @@ const Admin = () => {
   const itemsPerPage = {
     users: 10,
     appointments: 5,
-    tattooWorks: 10,
+    tattooWorks: 8,
   }[entity as AdminEntity];
 
   const getItems = useCallback(
     {
       users: getUsers,
       appointments: getAppointments,
-      tattooWorks: () => {},
+      tattooWorks: getTattooWorks,
     }[entity as AdminEntity],
     [entity, getUsers, getAppointments]
   );
 
   useEffect(() => {
-    setPage(1);
     if (!entity || !adminEntities.includes(entity as AdminEntity))
       navigate("/admin/users");
   }, [entity]);
@@ -70,6 +79,9 @@ const Admin = () => {
       )}
       {entity === "appointments" && appointments && (
         <AppointmentTable appointments={appointments} setPage={setPage} />
+      )}
+      {entity === "tattooWorks" && tattooWorks && (
+        <TattooWorkTable tattooWorks={tattooWorks} setPage={setPage} />
       )}
     </div>
   );
