@@ -22,20 +22,27 @@ const TattooistGallery = ({ tattooist }: { tattooist: User }) => {
             className="text-2xl font-bold"
           >{`${tattooist.firstName} ${tattooist.lastName}`}</Link>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-          {tattooist.tattooWorks.map((tattooWork) => (
-            <TattooWorkItem
-              tattooWork={{ ...tattooWork, tattooist }}
-              key={tattooWork.id}
-              selected={selectedTatooWork === tattooWork.id}
-              onClick={() =>
-                setSelectedTattooWork((p) =>
-                  p === tattooWork.id ? null : tattooWork.id
-                )
-              }
-            />
-          ))}
-        </div>
+        {tattooist.tattooWorks.length > 0 && (
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+            {tattooist.tattooWorks.map((tattooWork) => (
+              <TattooWorkItem
+                tattooWork={{ ...tattooWork, tattooist }}
+                key={tattooWork.id}
+                selected={selectedTatooWork === tattooWork.id}
+                onClick={() =>
+                  setSelectedTattooWork((p) =>
+                    p === tattooWork.id ? null : tattooWork.id
+                  )
+                }
+              />
+            ))}
+          </div>
+        )}
+        {tattooist.tattooWorks.length === 0 && (
+          <div className="flex justify-center items-center w-full h-24">
+            <span className="text-xl"> No tattoo works...</span>
+          </div>
+        )}
       </div>
       {tattooWork && (
         <TattooWorkDetails
