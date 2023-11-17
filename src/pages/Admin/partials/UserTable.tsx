@@ -29,7 +29,7 @@ const UserTable = ({ users, setPage }: UserTableProps) => {
     setPage((p) => p + 1);
   };
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex-1 flex flex-col w-full">
       <div className="flex-1 flex-shrink-1 overflow-scroll w-full">
         <table className="table table-zebra mb-2 flex-1 w-full rounded-xl overflow-hidden">
           {/* head */}

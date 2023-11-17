@@ -10,10 +10,12 @@ interface AlertState extends AlertPayload {
 }
 export interface UiState {
   currentAlert: AlertState;
+  searchValue: string;
 }
 
 const initialState: UiState = {
   currentAlert: { show: false, type: "info", message: "" },
+  searchValue: "",
 };
 
 export const userSlice = createSlice({
@@ -26,9 +28,12 @@ export const userSlice = createSlice({
     hideAlert: (state) => {
       state.currentAlert.show = false;
     },
+    setSearchValue: (state, action: PayloadAction<string>) => {
+      state.searchValue = action.payload;
+    },
   },
 });
 
-export const { showAlert, hideAlert } = userSlice.actions;
+export const { showAlert, hideAlert, setSearchValue } = userSlice.actions;
 
 export default userSlice.reducer;

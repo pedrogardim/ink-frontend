@@ -1,8 +1,9 @@
 import Icon from "@mdi/react";
 import { Link, useLocation } from "react-router-dom";
-import { mdiBell, mdiMenu } from "@mdi/js";
+import { mdiBell, mdiMenu, mdiMagnify } from "@mdi/js";
 import { useSelector, useDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice";
+import { setSearchValue } from "@/store/slices/uiSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,18 @@ const Header = () => {
             <li>
               <Link to="/admin/tattooWorks">Tattoo works</Link>
             </li>
+            <div className="relative">
+              <Icon
+                path={mdiMagnify}
+                size={1}
+                className="absolute top-1 left-2"
+              />
+              <input
+                type="text"
+                className="input input-bordered input-sm pl-9"
+                onChange={(e) => dispatch(setSearchValue(e.target.value))}
+              />
+            </div>
           </>
         )}
       </ul>
