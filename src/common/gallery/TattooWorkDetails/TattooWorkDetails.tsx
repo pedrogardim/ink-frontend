@@ -14,7 +14,7 @@ const TattooWorkDetails = ({ tattooWork, onClose }: TattooWorkDetailsProps) => {
     <div
       className={clsx(
         "fixed h-full w-full top-0 left-0 z-50",
-        "flex bg-black",
+        "flex bg-black bg-opacity-75",
         "bg-no-repeat bg-center bg-contain"
       )}
       style={{ backgroundImage: `url(${imageUrl})` }}

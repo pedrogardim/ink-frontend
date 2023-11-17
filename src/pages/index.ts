@@ -4,3 +4,4 @@ export * from "./Register";
 export * from "./Profile";
 export * from "./Appointments";
 export * from "./Gallery";
+export * from "./ArtistPortfolio";

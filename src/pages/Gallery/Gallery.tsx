@@ -35,10 +35,20 @@ const Gallery = () => {
         </div>
       </div>
 
-      <div className=" flex-1 w-full flex-col items-stretch overflow-y-scroll gap-y-4">
-        {tattooists?.map((tattooist) => (
-          <TattooistGallery key={tattooist.id} tattooist={tattooist} />
-        ))}
+      <div className="flex flex-1 w-full items-center justify-center">
+        {!isLoading && tattooists && tattooists?.length > 0 && (
+          <div className="w-full h-full overflow-y-scroll gap-y-4">
+            {tattooists?.map((tattooist) => (
+              <TattooistGallery key={tattooist.id} tattooist={tattooist} />
+            ))}
+          </div>
+        )}
+        {isLoading && (
+          <span className="loading loading-dots loading-lg m-auto"></span>
+        )}
+        {!isLoading && tattooists?.length === 0 && (
+          <span className="text-2xl font-bold m-auto">Tattooist not found</span>
+        )}
       </div>
     </div>
   );
