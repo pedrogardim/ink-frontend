@@ -6,7 +6,6 @@ import type { User } from "@/types/user";
 
 interface UserTableProps {
   users: PaginationResponse<User>;
-  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -91,7 +90,7 @@ const UserTable = ({ users, setPage }: UserTableProps) => {
         >
           <Icon path={mdiArrowLeft} size={1} />
         </button>
-        <div className="flex flex-col items-center font-bold uppercase text-sm">
+        <div className="flex flex-col items-center font-bold uppercase text-xs">
           <span>{`Page ${users.pageIndex} - ${users.totalPages}`}</span>
           <span>{`(${users.startIndex} - ${
             users.startIndex + users.itemsPerPage - 1

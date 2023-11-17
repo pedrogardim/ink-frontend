@@ -48,15 +48,15 @@ const Header = () => {
             <li>
               <Link to="/admin/tattooWorks">Tattoo works</Link>
             </li>
-            <div className="relative">
+            <div className="relative ml-4">
               <Icon
                 path={mdiMagnify}
-                size={1}
-                className="absolute top-1 left-2"
+                size={0.8}
+                className="absolute top-2 left-2"
               />
               <input
                 type="text"
-                className="input input-bordered input-sm pl-9"
+                className="input input-bordered input-sm pl-7"
                 onChange={(e) => dispatch(setSearchValue(e.target.value))}
               />
             </div>
