@@ -1,3 +1,5 @@
+import type { TattooWork } from "./tattoowork";
+
 export type UserRoleType = "client" | "tattooist" | "admin" | "super_admin";
 
 export interface User {
@@ -11,4 +13,5 @@ export interface User {
   role?: UserRoleType;
   createdAt?: string;
   updatedAt?: string;
+  tattooWorks: TattooWork[];
 }

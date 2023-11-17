@@ -1,6 +1,14 @@
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Login, Register, Profile, Home, Appointments } from "./pages";
+import {
+  Login,
+  Register,
+  Profile,
+  Home,
+  Appointments,
+  Gallery,
+  ArtistPortfolio,
+} from "./pages";
 import { Header, Alert } from "./common";
 
 function App() {
@@ -14,6 +22,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/appointments/:id?" element={<Appointments />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/gallery/:id" element={<ArtistPortfolio />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

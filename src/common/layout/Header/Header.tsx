@@ -29,7 +29,7 @@ const Header = () => {
           </li>
         )}
         <li>
-          <a>Artists</a>
+          <Link to="/gallery">Artists</Link>
         </li>
         {/* <li tabIndex={0}>
           <details>
