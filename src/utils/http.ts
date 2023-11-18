@@ -1,5 +1,5 @@
 import { RootState } from "@/store";
-import { showAlert } from "@/store/slices/uiSlice";
+import { setRedirectsTo, showAlert } from "@/store/slices/uiSlice";
 import {
   BaseQueryFn,
   FetchArgs,
@@ -27,13 +27,19 @@ export const authQueryWithErrorHandling: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await authBaseQuery(args, api, extraOptions);
   if (result.error) {
+    const errMessage = (result.error.data as any).error.message;
     api.dispatch(
       showAlert({
         type: "error",
         message: (result.error.data as any).error.message,
       })
     );
-    throw result.error;
+    if (errMessage === "You are not authorized to do that") {
+      api.dispatch(setRedirectsTo("/"));
+    }
+    if (errMessage === "User is not authenticated") {
+      api.dispatch(setRedirectsTo("/login"));
+    }
   }
   return result;
 };
