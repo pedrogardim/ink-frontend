@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { authBaseQuery } from "@/utils/http";
+import { authQueryWithErrorHandling } from "@/utils/http";
 import type { PaginationResponse } from "@/types/pagination";
 import type { User } from "@/types/user";
 import type { Appointment } from "@/types/appointment";
@@ -7,7 +7,7 @@ import type { TattooWork } from "@/types/tattoowork";
 
 export const adminApi = createApi({
   reducerPath: "adminApi",
-  baseQuery: authBaseQuery,
+  baseQuery: authQueryWithErrorHandling,
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: (params) => ({
@@ -37,4 +37,8 @@ export const adminApi = createApi({
   }),
 });
 
-export const { useLazyGetUsersQuery, useLazyGetAppointmentsQuery, useLazyGetTattooWorksQuery } = adminApi;
+export const {
+  useLazyGetUsersQuery,
+  useLazyGetAppointmentsQuery,
+  useLazyGetTattooWorksQuery,
+} = adminApi;

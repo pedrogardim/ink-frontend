@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { authBaseQuery } from "@/utils/http";
+import { authQueryWithErrorHandling } from "@/utils/http";
 import { User } from "@/types/user";
 import { PaginationResponse } from "@/types/pagination";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: authBaseQuery,
+  baseQuery: authQueryWithErrorHandling,
   endpoints: (builder) => ({
     updateMyProfile: builder.mutation({
       query: (updateBody) => ({
