@@ -11,14 +11,16 @@ interface AlertState extends AlertPayload {
 export interface UiState {
   currentAlert: AlertState;
   searchValue: string;
+  redirectsTo: string | null;
 }
 
 const initialState: UiState = {
   currentAlert: { show: false, type: "info", message: "" },
   searchValue: "",
+  redirectsTo: null,
 };
 
-export const userSlice = createSlice({
+export const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
@@ -31,9 +33,13 @@ export const userSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
+    setRedirectsTo: (state, action: PayloadAction<string | null>) => {
+      state.redirectsTo = action.payload;
+    },
   },
 });
 
-export const { showAlert, hideAlert, setSearchValue } = userSlice.actions;
+export const { showAlert, hideAlert, setSearchValue, setRedirectsTo } =
+  uiSlice.actions;
 
-export default userSlice.reducer;
+export default uiSlice.reducer;

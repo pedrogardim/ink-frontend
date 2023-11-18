@@ -11,8 +11,10 @@ import {
   Admin,
 } from "./pages";
 import { Header, Alert } from "./common";
+import { useReduxNavigate } from "./hooks";
 
 function App() {
+  useReduxNavigate();
   return (
     <div className="relative max-w-screen-xl h-screen mx-auto flex flex-col">
       <Header />
