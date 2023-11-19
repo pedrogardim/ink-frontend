@@ -20,8 +20,9 @@ const EditModal = ({ values, entity, isOpen, onClose }: EditModalProps) => {
       key={field}
       label={field}
       type="text"
+      //@ts-ignore
       value={values[field]}
-      onChange={(e) => console.log(e.target.value)}
+      onChange={(value) => console.log(value)}
     />
   ));
   return (
