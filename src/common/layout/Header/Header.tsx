@@ -5,6 +5,8 @@ import { mdiBell, mdiMenu, mdiMagnify, mdiClose } from "@mdi/js";
 import { useSelector, useDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice";
 import { setSearchValue } from "@/store/slices/uiSlice";
+import clsx from "clsx";
+import { User } from "@/types/user";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -113,11 +115,25 @@ const Header = () => {
       </ul>
       {user && (
         <div className="flex-none ml-auto">
+          {user.role !== "client" && (
+            <div
+              className={clsx(
+                "badge mr-2",
+                {
+                  super_admin: "badge-primary",
+                  tattooist: "badge-accent",
+                  admin: "badge-secondary",
+                  client: "",
+                }[(user.role as User["role"]) || "client"]
+              )}
+            >
+              {user.role}
+            </div>
+          )}
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">
                 <Icon path={mdiBell} size={1} />
-                {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
               </div>
             </label>
             <div
