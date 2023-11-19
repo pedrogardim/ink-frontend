@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, ImageInput } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
 import { useRegisterMutation } from "@/services/auth";
-import { setUser } from "@/store/slices/userSlice";
+import { authenticate, setUser } from "@/store/slices/userSlice";
 import { useDispatch } from "@/store/hooks";
 import type { AuthResponse } from "@/types/auth";
 
@@ -37,8 +37,7 @@ const Register = () => {
     const res = await register(values);
     if (!("data" in res)) return;
     const { token, user } = res.data as AuthResponse;
-    localStorage.setItem("jwtToken", token);
-    dispatch(setUser(user));
+    dispatch(authenticate({ token, user }));
     navigate("/");
   };
 

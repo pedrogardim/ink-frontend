@@ -1,12 +1,14 @@
 import Icon from "@mdi/react";
-import { Link } from "react-router-dom";
-import { mdiBell, mdiMenu } from "@mdi/js";
+import { Link, useLocation } from "react-router-dom";
+import { mdiBell, mdiMenu, mdiMagnify } from "@mdi/js";
 import { useSelector, useDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice";
+import { setSearchValue } from "@/store/slices/uiSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const { pathname } = useLocation();
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
@@ -20,30 +22,46 @@ const Header = () => {
         </Link>
       </div>
       <ul className="menu menu-horizontal px-1 mr-auto">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        {user && (
-          <li>
-            <Link to="/appointments">My appointments</Link>
-          </li>
+        {!pathname.includes("admin") && (
+          <>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            {user && (
+              <li>
+                <Link to="/appointments">My appointments</Link>
+              </li>
+            )}
+            <li>
+              <Link to="/gallery">Artists</Link>
+            </li>
+          </>
         )}
-        <li>
-          <Link to="/gallery">Artists</Link>
-        </li>
-        {/* <li tabIndex={0}>
-          <details>
-            <summary>Opciones</summary>
-            <ul className="p-2">
-              <li>
-                <a>Submenu 1</a>
-              </li>
-              <li>
-                <a>Submenu 2</a>
-              </li>
-            </ul>
-          </details>
-        </li> */}
+        {pathname.includes("admin") && (
+          <>
+            <li>
+              <Link to="/admin/users">Users</Link>
+            </li>
+            <li>
+              <Link to="/admin/appointments">Appointments</Link>
+            </li>
+            <li>
+              <Link to="/admin/tattooWorks">Tattoo works</Link>
+            </li>
+            <div className="relative ml-4">
+              <Icon
+                path={mdiMagnify}
+                size={0.8}
+                className="absolute top-2 left-2"
+              />
+              <input
+                type="text"
+                className="input input-bordered input-sm pl-7"
+                onChange={(e) => dispatch(setSearchValue(e.target.value))}
+              />
+            </div>
+          </>
+        )}
       </ul>
       {user && (
         <div className="flex-none">

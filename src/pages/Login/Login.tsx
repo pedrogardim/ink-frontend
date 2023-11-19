@@ -3,7 +3,7 @@ import { Input } from "@/common";
 import useFormValidation from "@/hooks/useFormValidation";
 import { useLoginMutation } from "@/services/auth";
 import { AuthResponse } from "@/types/auth";
-import { setUser } from "@/store/slices/userSlice";
+import { authenticate } from "@/store/slices/userSlice";
 import { useDispatch } from "@/store/hooks";
 
 const helperText = `
@@ -30,8 +30,7 @@ const Login = () => {
     const res = await login(values);
     if (!("data" in res)) return;
     const { token, user } = res.data as AuthResponse;
-    localStorage.setItem("jwtToken", token);
-    dispatch(setUser(user));
+    dispatch(authenticate({ token, user }));
     navigate("/");
   };
 

@@ -8,10 +8,13 @@ import {
   Appointments,
   Gallery,
   ArtistPortfolio,
+  Admin,
 } from "./pages";
 import { Header, Alert } from "./common";
+import { useReduxNavigate } from "./hooks";
 
 function App() {
+  useReduxNavigate();
   return (
     <div className="relative max-w-screen-xl h-screen mx-auto flex flex-col">
       <Header />
@@ -24,6 +27,7 @@ function App() {
         <Route path="/appointments/:id?" element={<Appointments />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery/:id" element={<ArtistPortfolio />} />
+        <Route path="/admin/:entity?" element={<Admin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
