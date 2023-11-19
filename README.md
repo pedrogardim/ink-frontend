@@ -64,8 +64,12 @@ You will need yarn installed, and also the [backend](https://github.com/pedrogar
 
 ## Roadmap 🛣️
 
-- **Add notifications** - So users know when their appointments are modified, created or deleted.
-- **Add a React frontend** - So users can interact with the API from a web browser.
+- **Add notifications 🔔** - So users know when their appointments are modified, created or deleted.
+- **Add image upload 📸** - So users can upload profile pictures and tattoo artist portfolios.
+- **Add Admin CRUD features 🎛️** - Add create, update, delete features.
+
+## Known bugs 🐛
+
 
 ## Acknowledgements 🎓
 
