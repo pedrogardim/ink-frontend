@@ -1,5 +1,6 @@
 import { RootState } from "@/store";
 import { setRedirectsTo, showAlert } from "@/store/slices/uiSlice";
+import { logout } from "@/store/slices/userSlice";
 import {
   BaseQueryFn,
   FetchArgs,
@@ -37,7 +38,11 @@ export const authQueryWithErrorHandling: BaseQueryFn<
     if (errMessage === "You are not authorized to do that") {
       api.dispatch(setRedirectsTo("/"));
     }
-    if (errMessage === "User is not authenticated") {
+    if (
+      errMessage === "User is not authenticated" ||
+      errMessage === "Session token expired"
+    ) {
+      api.dispatch(logout());
       api.dispatch(setRedirectsTo("/login"));
     }
   }
