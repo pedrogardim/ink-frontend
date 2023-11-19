@@ -90,7 +90,7 @@ const Appointments = () => {
         </button>
       )}
       <AppointmentDetails
-        isCreating={selectedAppointment === "new"}
+        isCreating={selectedAppointment === "new" && user?.role !== "tattooist"}
         id={+(selectedAppointment as string)}
         existingData={data?.items.find(
           (e) => e.id === +(selectedAppointment as string)

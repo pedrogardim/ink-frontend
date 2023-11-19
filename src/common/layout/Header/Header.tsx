@@ -33,6 +33,11 @@ const Header = () => {
               <li>
                 <Link to="/appointments">My appointments</Link>
               </li>
+              {user?.role === "tattooist" && (
+                <li>
+                  <Link to={`/gallery/${user.id}`}>My portfolio</Link>
+                </li>
+              )}
             </>
           )}
           <li>
