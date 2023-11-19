@@ -47,8 +47,12 @@ const Gallery = () => {
 
   return (
     <div className="page overflow-y-scroll">
-      <div className="flex w-full items-center my-2">
-        <h1 className="text-3xl font-bold mr-4">Tattooists</h1>
+      <div className="flex flex-col w-full my-2 gap-y-3">
+        <h1 className="text-3xl font-bold mr-4">Artists</h1>
+        <span>
+          Explore the portfolio of our talented artists for inspiration and
+          discover the perfect design to bring your tattoo vision to life.
+        </span>
         <div className="relative">
           <Icon path={mdiMagnify} size={1} className="absolute top-3 left-2" />
           <input

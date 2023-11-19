@@ -15,7 +15,7 @@ const TattooistGallery = ({ tattooist }: { tattooist: User }) => {
         <div className="flex items-center gap-x-5 mb-4">
           <img
             src={tattooist.profilePicUrl}
-            className="rounded-full shadow-2xl bg-base-300 h-20 w-20"
+            className="rounded-full shadow-2xl bg-base-300 h-16 w-16s"
           />
           <Link
             to={`/gallery/${tattooist.id}`}
