@@ -6,6 +6,12 @@ Welcome to the Tattoo Studio API documentation. This frontend interacts with [th
 
 - [Stack 🛠️](#stack)
 - [Features 🌟](#features-)
+- [Installation 🚀](#installation-)
+- [App pages / routes 📑](#app-pages-/-routes-)
+- [Author ✒️](#author-)
+- [Roadmap 🛣️](#roadmap-️)
+- [Acknowledgements 🎓](#acknowledgements-)
+
 
 ## Stack 🛠️
 
@@ -18,6 +24,8 @@ Welcome to the Tattoo Studio API documentation. This frontend interacts with [th
 - **Tattoo Artist Portfolios:** Tattooists can upload examples of their work. 🎨
 - **Admin Dashboard:** Full control over users, appointments, and tattoo works for administrators. 👩‍💼👨‍💼
 - **Redux Toolkit Ecosystem:** Extense use of RTK Slices and createApi. 📚
+- **Tailwind CSS:** Designed with Tailwind CSS. 🎨
+- **Custom components:** Custom fully functional calendar and gallery components. 🎨
 
 ## Installation 🚀
 
@@ -34,10 +42,31 @@ You will need yarn installed, and also the [backend](https://github.com/pedrogar
 
 ## App pages / routes 📑
 
-[TODO]
+- `/`
+  - Landing page
+  - Home page for logged users
+- `/login` - Login page
+- `/register` - Register page
+- `/profile` - Profile view / update page
+- `/appointments` - My appointments page (List, and filter appointments)
+  - `/appointments/{id}` - See an specific appointment detais and update it
+- `/gallery` - Tattoo artist portfolios page with search
+  - `/gallery/{id}` - See an specific tattoo artist portfolio
+- `/admin` - Admin dashboard page (only a super admin can access it)
+  - `/admin/users` - Users CRUD
+  - `/admin/appointments` - Appointments CRUD
+  - `/admin/tattooWorks` - Tattoo works CRUD
 
-- `GET /api/appointments/my` - Retrieve user's appointments.
-- `POST /api/appointments/my` - Request a new appointment.
-- `GET /api/appointments/my/{id}` - Retrieve details of a specific appointment.
-- `PUT /api/appointments/my/{id}` - Update a specific appointment.
-- `DELETE /api/appointments/my/{id}` - Delete a specific appointment.
+## Author ✒️
+
+- **Pedro Gardim** - Project Developer
+  - [GitHub](https://github.com/pedrogardim) - [LinkedIn](https://www.linkedin.com/in/pedro-gardim) - [Portfolio](https://pedrogardim.com)
+
+## Roadmap 🛣️
+
+- **Add notifications** - So users know when their appointments are modified, created or deleted.
+- **Add a React frontend** - So users can interact with the API from a web browser.
+
+## Acknowledgements 🎓
+
+- A big shoutout to the **Geekshubs Academy** for the opportunity to learn and grow as a developer.
