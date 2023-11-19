@@ -54,10 +54,12 @@ const Home = () => {
         </div>
       </div>
       <div className="flex gap-x-4 flex-wrap justify-center">
-        <Link to="/appointments/new" className="btn btn-outline btn-primary">
-          <Icon path={mdiPlus} size={1} />
-          Ask for a appointment
-        </Link>
+        {user?.role !== "tattooist" && (
+          <Link to="/appointments/new" className="btn btn-outline btn-primary">
+            <Icon path={mdiPlus} size={1} />
+            Ask for a appointment
+          </Link>
+        )}
         <Link to="/appointments" className="btn btn-outline btn-secondary">
           <Icon path={mdiCalendarRange} size={1} />
           See my appointments
