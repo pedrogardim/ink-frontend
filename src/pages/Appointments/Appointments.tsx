@@ -5,9 +5,11 @@ import { AppointmentCard, AppointmentDetails, Calendar } from "@/common";
 import { useLazyGetMyAppointmentsQuery } from "@/services";
 import Icon from "@mdi/react";
 import { mdiPlus } from "@mdi/js";
+import { useSelector } from "@/store/hooks";
 
 const Appointments = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   const [getAppointments, { data, isLoading }] =
     useLazyGetMyAppointmentsQuery();
 
@@ -52,12 +54,14 @@ const Appointments = () => {
                   You have no appointments{" "}
                   {selectedDate ? "on this day" : "yet"}
                 </h3>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => navigate("/appointments/new")}
-                >
-                  Ask for one!
-                </button>
+                {user?.role !== "tattooist" && (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => navigate("/appointments/new")}
+                  >
+                    Ask for one!
+                  </button>
+                )}
               </>
             )}
             {!isLoading && !!data?.items.length && (
@@ -77,14 +81,16 @@ const Appointments = () => {
           </div>
         </div>
       </div>
-      <button
-        className="absolute btn btn-circle btn-lg btn-primary bottom-8 right-8"
-        onClick={() => navigate("/appointments/new")}
-      >
-        <Icon path={mdiPlus} className="text-base-800" size={1.4} />
-      </button>
+      {user?.role !== "tattooist" && (
+        <button
+          className="absolute btn btn-circle btn-lg btn-primary bottom-8 right-8"
+          onClick={() => navigate("/appointments/new")}
+        >
+          <Icon path={mdiPlus} className="text-base-800" size={1.4} />
+        </button>
+      )}
       <AppointmentDetails
-        isCreating={selectedAppointment === "new"}
+        isCreating={selectedAppointment === "new" && user?.role !== "tattooist"}
         id={+(selectedAppointment as string)}
         existingData={data?.items.find(
           (e) => e.id === +(selectedAppointment as string)
