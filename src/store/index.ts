@@ -1,7 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import uiReducer from "./slices/uiSlice";
-import { appointmentApi, authApi, userApi, adminApi } from "@/services";
+import {
+  appointmentApi,
+  authApi,
+  userApi,
+  adminApi,
+  tattooistApi,
+} from "@/services";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -17,6 +23,7 @@ export const store = configureStore({
     ui: uiReducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [tattooistApi.reducerPath]: tattooistApi.reducer,
     [appointmentApi.reducerPath]: appointmentApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
   },
@@ -24,6 +31,7 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(userApi.middleware)
+      .concat(tattooistApi.middleware)
       .concat(appointmentApi.middleware)
       .concat(adminApi.middleware),
 });
