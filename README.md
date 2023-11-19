@@ -1,8 +1,9 @@
 # Ink Frontend
 
-Welcome to the Tattoo Studio API documentation. This frontend interacts with [this backend](https://github.com/pedrogardim/ink-backend) in order to compose a fullstack app, featuring authentication, appointment scheduling, and tattoo artist portfolios. It's the 5th project of the GeeksHub Academy Fullstack Bootcamp, showcasing real-world frontend development skills with React, Redux and Tailwind.
-
 ![ezgif com-video-to-gif](https://github.com/pedrogardim/ink-frontend/assets/81443264/f8795614-3f8a-4f55-8c2f-7326381d8b23)
+
+
+This frontend interacts with [this backend](https://github.com/pedrogardim/ink-backend) in order to compose a fullstack app, featuring authentication, appointment scheduling, and tattoo artist portfolios. It's the 5th project of the GeeksHub Academy Fullstack Bootcamp, showcasing real-world frontend development skills with React, Redux and Tailwind.
 
 ## Table of Contents 🗂️
 
@@ -71,6 +72,8 @@ You will need yarn installed, and also the [backend](https://github.com/pedrogar
 - **Add Admin CRUD features 🎛️** - Add create, update, delete features.
 
 ## Known bugs 🐛
+
+- **Appointments filter calendar:** When selected a date in the calendar view, calendar dots only show current date.
 
 
 ## Acknowledgements 🎓
