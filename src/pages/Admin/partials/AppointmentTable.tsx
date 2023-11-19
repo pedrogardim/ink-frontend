@@ -7,6 +7,7 @@ import type { Appointment } from "@/types/appointment";
 interface AppointmentTableProps {
   appointments: PaginationResponse<Appointment>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  setEditingItem: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const appointmentsColums = [
@@ -20,7 +21,11 @@ const appointmentsColums = [
   "Delete",
 ];
 
-const AppointmentTable = ({ appointments, setPage }: AppointmentTableProps) => {
+const AppointmentTable = ({
+  appointments,
+  setPage,
+  setEditingItem,
+}: AppointmentTableProps) => {
   const handlePrevPage = () => {
     setPage((p) => (p === 1 ? p : p - 1));
   };
@@ -114,7 +119,10 @@ const AppointmentTable = ({ appointments, setPage }: AppointmentTableProps) => {
                   </div>
                 </td>
                 <td>
-                  <button className="btn btn-circle btn-info btn-sm">
+                  <button
+                    className="btn btn-circle btn-info btn-sm"
+                    onClick={() => setEditingItem(appointment.id)}
+                  >
                     <Icon path={mdiPencil} size={0.8} />
                   </button>
                 </td>

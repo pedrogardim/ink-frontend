@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -10,6 +10,7 @@ import { useSelector } from "@/store/hooks";
 import UserTable from "./partials/UserTable";
 import AppointmentTable from "./partials/AppointmentTable";
 import TattooWorkTable from "./partials/TattooWorkTable";
+import EditModal from "./partials/EditModal";
 
 const adminEntities = ["users", "appointments", "tattooWorks"] as const;
 type AdminEntity = (typeof adminEntities)[number];
@@ -18,6 +19,7 @@ const Admin = () => {
   const { entity } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [editingItem, setEditingItem] = useState<number | null>(null);
 
   const [getUsers, { data: users, isLoading: isLoadingUsers }] =
     useLazyGetUsersQuery();
@@ -50,6 +52,16 @@ const Admin = () => {
     [entity, getUsers, getAppointments]
   );
 
+  const values = useMemo(
+    () =>
+      ({
+        users,
+        appointments,
+        tattooWorks,
+      }[entity as AdminEntity]?.items),
+    [entity, users, appointments, tattooWorks]
+  );
+
   useEffect(() => {
     if (!entity || !adminEntities.includes(entity as AdminEntity))
       navigate("/admin/users");
@@ -75,13 +87,33 @@ const Admin = () => {
         <span className="loading loading-dots loading-lg m-auto"></span>
       )}
       {entity === "users" && users && (
-        <UserTable users={users} setPage={setPage} />
+        <UserTable
+          users={users}
+          setPage={setPage}
+          setEditingItem={setEditingItem}
+        />
       )}
       {entity === "appointments" && appointments && (
-        <AppointmentTable appointments={appointments} setPage={setPage} />
+        <AppointmentTable
+          appointments={appointments}
+          setPage={setPage}
+          setEditingItem={setEditingItem}
+        />
       )}
       {entity === "tattooWorks" && tattooWorks && (
-        <TattooWorkTable tattooWorks={tattooWorks} setPage={setPage} />
+        <TattooWorkTable
+          tattooWorks={tattooWorks}
+          setPage={setPage}
+          setEditingItem={setEditingItem}
+        />
+      )}
+      {editingItem !== null && (
+        <EditModal
+          values={values?.find((e) => e.id === editingItem)}
+          entity={entity as AdminEntity}
+          isOpen={true}
+          onClose={() => setEditingItem(null)}
+        />
       )}
     </div>
   );

@@ -9,6 +9,7 @@ export const adminApi = createApi({
   reducerPath: "adminApi",
   baseQuery: authQueryWithErrorHandling,
   endpoints: (builder) => ({
+    //GET
     getUsers: builder.query({
       query: (params) => ({
         url: "/users/",
@@ -34,6 +35,35 @@ export const adminApi = createApi({
       transformResponse: (response: { data: PaginationResponse<TattooWork> }) =>
         response.data,
     }),
+    //PUT
+    editUser: builder.mutation({
+      query: (body) => ({
+        url: "/users/",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: { data: PaginationResponse<User> }) =>
+        response.data,
+    }),
+    editAppointment: builder.mutation({
+      query: (body) => ({
+        url: "/appointments/",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: {
+        data: PaginationResponse<Appointment>;
+      }) => response.data,
+    }),
+    editTattooWork: builder.mutation({
+      query: (body) => ({
+        url: "/tattooWorks/",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: { data: PaginationResponse<TattooWork> }) =>
+        response.data,
+    }),
   }),
 });
 
@@ -41,4 +71,7 @@ export const {
   useLazyGetUsersQuery,
   useLazyGetAppointmentsQuery,
   useLazyGetTattooWorksQuery,
+  useEditUserMutation,
+  useEditAppointmentMutation,
+  useEditTattooWorkMutation,
 } = adminApi;

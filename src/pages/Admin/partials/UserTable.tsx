@@ -7,6 +7,7 @@ import type { User } from "@/types/user";
 interface UserTableProps {
   users: PaginationResponse<User>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  setEditingItem: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const userColums = [
@@ -19,7 +20,7 @@ const userColums = [
   "Delete",
 ];
 
-const UserTable = ({ users, setPage }: UserTableProps) => {
+const UserTable = ({ users, setPage, setEditingItem }: UserTableProps) => {
   const handlePrevPage = () => {
     setPage((p) => (p === 1 ? p : p - 1));
   };
@@ -69,7 +70,10 @@ const UserTable = ({ users, setPage }: UserTableProps) => {
                   </div>
                 </td>
                 <td>
-                  <button className="btn btn-circle btn-info btn-sm">
+                  <button
+                    className="btn btn-circle btn-info btn-sm"
+                    onClick={() => setEditingItem(user.id)}
+                  >
                     <Icon path={mdiPencil} size={0.8} />
                   </button>
                 </td>

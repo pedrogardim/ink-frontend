@@ -93,10 +93,10 @@ export const userRules: ValidationRules = {
 export const validationRules = {
   user: userRules,
   appointment: appointmentsRules,
-  tattoWork: tattooWorkRules,
+  tattooWork: tattooWorkRules,
 };
 
-export type ValidationEntity = "user" | "appointment" | "tattoWork";
+export type ValidationEntity = "user" | "appointment" | "tattooWork";
 
 export const formTypes: {
   [key: string]: {

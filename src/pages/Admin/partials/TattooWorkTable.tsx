@@ -7,6 +7,7 @@ import type { TattooWork } from "@/types/tattoowork";
 interface TattooWorkTableProps {
   tattooWorks: PaginationResponse<TattooWork>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  setEditingItem: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const tattooWorksColums = [
@@ -20,7 +21,11 @@ const tattooWorksColums = [
   "Delete",
 ];
 
-const TattooWorkTable = ({ tattooWorks, setPage }: TattooWorkTableProps) => {
+const TattooWorkTable = ({
+  tattooWorks,
+  setPage,
+  setEditingItem,
+}: TattooWorkTableProps) => {
   const handlePrevPage = () => {
     setPage((p) => (p === 1 ? p : p - 1));
   };
@@ -87,7 +92,10 @@ const TattooWorkTable = ({ tattooWorks, setPage }: TattooWorkTableProps) => {
                   </div>
                 </td>
                 <td>
-                  <button className="btn btn-circle btn-info btn-sm">
+                  <button
+                    className="btn btn-circle btn-info btn-sm"
+                    onClick={() => setEditingItem(tattooWork.id)}
+                  >
                     <Icon path={mdiPencil} size={0.8} />
                   </button>
                 </td>
