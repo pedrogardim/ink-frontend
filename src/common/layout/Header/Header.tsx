@@ -10,7 +10,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { pathname } = useLocation();
-  const drawerController = useRef<HTMLInputElement>();
+  const drawerController = useRef<HTMLInputElement | null>(null);
 
   const closeDrawer = () =>
     ((drawerController.current as HTMLInputElement).checked = false);
@@ -117,7 +117,7 @@ const Header = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">
                 <Icon path={mdiBell} size={1} />
-                <span className="badge badge-xs badge-primary indicator-item"></span>
+                {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
               </div>
             </label>
             <div
@@ -125,13 +125,8 @@ const Header = () => {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
-                <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
-                    View cart
-                  </button>
-                </div>
+                <span className="font-bold text-lg">Notifications</span>
+                <span>Coming soon</span>
               </div>
             </div>
           </div>
