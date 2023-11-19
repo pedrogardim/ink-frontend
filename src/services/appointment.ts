@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { authBaseQuery } from "@/utils/http";
+import { authQueryWithErrorHandling } from "@/utils/http";
 import type { Appointment } from "@/types/appointment";
 import type { PaginationResponse } from "@/types/pagination";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
-  baseQuery: authBaseQuery,
+  baseQuery: authQueryWithErrorHandling,
   endpoints: (builder) => ({
     getMyAppointments: builder.query({
       query: (params) => ({ url: "/appointments/my", params }),

@@ -5,3 +5,5 @@ export * from "./Profile";
 export * from "./Appointments";
 export * from "./Gallery";
 export * from "./ArtistPortfolio";
+export * from "./Admin";
+export * from "./Landing";
