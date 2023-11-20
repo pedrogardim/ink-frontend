@@ -82,7 +82,9 @@ export const userRules: ValidationRules = {
     customMessage: `Must contain 9 numbers`,
   },
   profilePicUrl: {
-    validation: (id) => URL_REGEX.test(id),
+    // temp
+    // validation: (id) => URL_REGEX.test(id),
+    validation: () => true,
   },
   role: {
     validation: (type) =>

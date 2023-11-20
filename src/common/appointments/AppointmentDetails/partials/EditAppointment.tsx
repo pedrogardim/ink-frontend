@@ -36,7 +36,7 @@ const EditAppointment = ({
     onChange,
     onBlur,
     validateAll,
-  } = useFormValidation("appointment", originalAppointment);
+  } = useFormValidation("appointment", originalAppointment || {});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -124,6 +124,7 @@ const EditAppointment = ({
         <div className="flex flex-col flex-1 justify-center items-center">
           <div className="flex-1 w-full max-w-xs">
             <Calendar
+              allowPrevSelection={false}
               pagination
               selectedDate={new Date(appointment.startTime)}
               monthDate={new Date(appointment.startTime)}

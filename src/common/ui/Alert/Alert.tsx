@@ -40,7 +40,7 @@ const Alert = () => {
     <Transition
       show={currentAlert.show}
       className={clsx(
-        "alert top-16 absolute",
+        "z-20 alert top-16 absolute",
         !currentAlert.show && "pointer-events-none opacity-0",
         alertTypeClass
       )}

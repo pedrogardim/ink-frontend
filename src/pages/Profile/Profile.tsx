@@ -6,6 +6,7 @@ import { useSelector } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 import { useUpdateMyProfileMutation } from "@/services";
 import { User } from "@/types/user";
+import { showAlert } from "@/store/slices/uiSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,13 @@ const Profile = () => {
     const isValid = validateAll();
     if (!isValid) return;
     const res = await updateMyProfile(values);
-    if ("error" in res) return;
-    dispatch(setUser(values));
-    console.log("user updated!");
+    if ("error" in res) {
+      console.log(res.error);
+      return;
+    } else {
+      dispatch(setUser(values));
+      dispatch(showAlert({ type: "success", message: "Profile updated" }));
+    }
   };
 
   const inputsPages = [

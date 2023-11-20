@@ -25,6 +25,7 @@ interface CalendarProps {
   onSelect?: (date: Date) => void;
   selectedDate?: Date;
   pagination?: boolean;
+  allowPrevSelection?: boolean;
 }
 
 const Calendar = ({
@@ -33,6 +34,7 @@ const Calendar = ({
   onSelect = () => {},
   selectedDate,
   pagination = false,
+  allowPrevSelection = true,
 }: CalendarProps) => {
   const [selectedMonth, setSelectedMonth] = useState(monthDate);
 
@@ -87,7 +89,10 @@ const Calendar = ({
               key={i}
               className={clsx(
                 cellClass,
-                ((tile?.weekDay || 0) >= 5 || !tile) && disabledTileClass,
+                ((tile?.weekDay || 0) >= 5 ||
+                  !tile ||
+                  (+(dayDate as Date) < +new Date() && !allowPrevSelection)) &&
+                  disabledTileClass,
                 selectedDate &&
                   dayDate &&
                   +dayjs(selectedDate).startOf("day") === +dayDate &&
